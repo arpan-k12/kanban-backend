@@ -1,5 +1,6 @@
 import { Router } from "express";
 import authRouter from "./auth.routes";
+import customerRouter from "./customer.routes";
 
 export class IndexRouter {
   public router: Router;
@@ -11,6 +12,7 @@ export class IndexRouter {
 
   private initializeRoutes() {
     this.router.use("/api/auth", authRouter);
+    this.router.use("/api/customer", customerRouter);
   }
 }
 

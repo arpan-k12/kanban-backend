@@ -7,6 +7,7 @@ import {
   DB_USERNAME,
 } from "./dotenv.config";
 import { Users } from "models/users.model";
+import { Customers } from "models/customer.model";
 
 const sequelize = new Sequelize({
   dialect: "postgres",
@@ -16,7 +17,7 @@ const sequelize = new Sequelize({
   password: DB_PASSWORD,
   database: DB_NAME,
   logging: true,
-  models: [Users],
+  models: [Users, Customers],
   define: {
     underscored: true,
   },

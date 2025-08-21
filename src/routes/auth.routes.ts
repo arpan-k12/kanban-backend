@@ -16,7 +16,12 @@ export class AuthRouter {
         UserController.signup(req, res, next);
       }
     );
-    // this.router.post("/signup", this.signup);
+    this.router.post(
+      "/signin",
+      (req: Request, res: Response, next: NextFunction) => {
+        UserController.signin(req, res, next);
+      }
+    );
   }
 }
 
