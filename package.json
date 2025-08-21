@@ -1,0 +1,48 @@
+{
+  "name": "kanban-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "nodemon",
+    "lint": "eslint 'src/**/*.ts'",
+    "fix-lint": "eslint --fix --ext .js,.jsx ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.16.3",
+    "sequelize-typescript": "^2.1.6",
+    "swagger-ui-express": "^5.0.1",
+    "tsconfig-paths": "^4.2.0",
+    "uuid": "^11.1.0",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^24.3.0",
+    "@types/pg": "^8.15.5",
+    "@types/swagger-ui-express": "^4.1.8",
+    "eslint": "^9.33.0",
+    "globals": "^16.3.0",
+    "nodemon": "^3.1.10",
+    "npm": "^11.5.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.40.0"
+  }
+}
