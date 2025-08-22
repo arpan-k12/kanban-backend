@@ -8,6 +8,11 @@ import {
 } from "./dotenv.config";
 import { Users } from "models/users.model";
 import { Customers } from "models/customer.model";
+import { Inquiry } from "models/inquiry.model";
+import { KanbanColumn } from "models/kanbanColumn.model";
+import { Cards } from "models/cards.model";
+import { Decision } from "models/decision.model";
+import { Quote } from "models/quotes.model";
 
 const sequelize = new Sequelize({
   dialect: "postgres",
@@ -17,7 +22,7 @@ const sequelize = new Sequelize({
   password: DB_PASSWORD,
   database: DB_NAME,
   logging: true,
-  models: [Users, Customers],
+  models: [Users, Customers, Inquiry, KanbanColumn, Cards, Decision, Quote],
   define: {
     underscored: true,
   },

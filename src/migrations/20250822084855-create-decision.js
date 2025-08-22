@@ -4,30 +4,28 @@ import { DataTypes } from "sequelize";
 /** @type {import('sequelize-cli').Migration} */
 export default {
   async up(queryInterface) {
-    await queryInterface.createTable("inquiries", {
+    await queryInterface.createTable("decisions", {
       id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
         allowNull: false,
       },
-      customer_id: {
+      card_id: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: "customers",
+          model: "cards",
           key: "id",
         },
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
-      commodity: {
+      decision: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
-      budget: {
-        type: DataTypes.DECIMAL,
-        allowNull: false,
+      reason: {
+        type: DataTypes.STRING,
       },
       createdAt: {
         allowNull: false,
@@ -43,6 +41,6 @@ export default {
     });
   },
   async down(queryInterface) {
-    await queryInterface.dropTable("inquiries");
+    await queryInterface.dropTable("decisions");
   },
 };

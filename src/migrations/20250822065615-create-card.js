@@ -1,19 +1,26 @@
-"use strict";
 import { DataTypes } from "sequelize";
 
 /** @type {import('sequelize-cli').Migration} */
 export default {
   async up(queryInterface) {
-    await queryInterface.createTable("inquiries", {
+    await queryInterface.createTable("cards", {
       id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
         allowNull: false,
       },
+      column_id: {
+        type: DataTypes.UUID,
+        references: {
+          model: "kanbanColumns",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
       customer_id: {
         type: DataTypes.UUID,
-        allowNull: false,
         references: {
           model: "customers",
           key: "id",
@@ -21,13 +28,26 @@ export default {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
-      commodity: {
-        type: DataTypes.STRING,
-        allowNull: false,
+      inquiry_id: {
+        type: DataTypes.UUID,
+        references: {
+          model: "inquiries",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
-      budget: {
-        type: DataTypes.DECIMAL,
-        allowNull: false,
+      summary: {
+        type: DataTypes.STRING,
+      },
+      assigned_to: {
+        type: DataTypes.UUID,
+        references: {
+          model: "users",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
       createdAt: {
         allowNull: false,
@@ -43,6 +63,6 @@ export default {
     });
   },
   async down(queryInterface) {
-    await queryInterface.dropTable("inquiries");
+    await queryInterface.dropTable("cards");
   },
 };

@@ -37,7 +37,7 @@ export class Inquiry
   @ForeignKey(() => Customers)
   @AllowNull(false)
   @Column({
-    type: DataType.UUID, // same type as Customers.id
+    type: DataType.UUID,
   })
   customer_id!: string;
 

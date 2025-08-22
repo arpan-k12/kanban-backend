@@ -1,8 +1,8 @@
-import { CustomerController } from "controllers/customer.controller";
+import { InquiryController } from "controllers/inquiry.controller";
 import { Router, Request, Response, NextFunction } from "express";
 import { authentication } from "middlewares/authentication";
 
-export class CustomerRouter {
+export class InquiryRouter {
   public router: Router;
 
   constructor() {
@@ -15,38 +15,39 @@ export class CustomerRouter {
       "/",
       authentication,
       (req: Request, res: Response, next: NextFunction) => {
-        CustomerController.create(req, res, next);
+        InquiryController.create(req, res, next);
       }
     );
     this.router.patch(
       "/:id",
       authentication,
       (req: Request, res: Response, next: NextFunction) => {
-        CustomerController.update(req, res, next);
+        InquiryController.update(req, res, next);
       }
     );
-    this.router.delete(
+    this.router.patch(
       "/:id",
       authentication,
       (req: Request, res: Response, next: NextFunction) => {
-        CustomerController.delete(req, res, next);
+        InquiryController.delete(req, res, next);
       }
     );
+
     this.router.get(
       "/",
       authentication,
       (req: Request, res: Response, next: NextFunction) => {
-        CustomerController.getAllCustomer(req, res, next);
+        InquiryController.getAllInquiry(req, res, next);
       }
     );
     this.router.get(
       "/:id",
       authentication,
       (req: Request, res: Response, next: NextFunction) => {
-        CustomerController.getCustomerById(req, res, next);
+        InquiryController.getInquiryById(req, res, next);
       }
     );
   }
 }
 
-export default new CustomerRouter().router;
+export default new InquiryRouter().router;

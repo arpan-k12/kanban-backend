@@ -3,9 +3,10 @@ import { verifyJwtToken } from "helper/jwtToken";
 import { UserRepository } from "repositories/userRepository";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import AppError from "utils/appError";
+import { Users } from "models/users.model";
 
 export interface AuthenticatedRequest extends Request {
-  user?: JwtPayload | string;
+  user?: Users;
 }
 
 export async function authentication(
