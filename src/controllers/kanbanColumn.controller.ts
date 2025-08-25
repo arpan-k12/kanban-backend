@@ -54,4 +54,15 @@ export class KanbanColumnController {
       next(error);
     }
   }
+  static async getAllColumn(req: Request, res: Response, next: NextFunction) {
+    try {
+      const columns = await KanbanColumnRepository.getAllColumns();
+      if (!columns) {
+        return next(new AppError("No kanban columns found", 404));
+      }
+      return sendSuccess(res, "Kanban columns retrieved successfully", columns);
+    } catch (error) {
+      next(error);
+    }
+  }
 }

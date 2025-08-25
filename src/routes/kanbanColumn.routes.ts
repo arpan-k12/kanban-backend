@@ -25,6 +25,13 @@ export class KanbanColumnRouter {
         KanbanColumnController.update(req, res, next);
       }
     );
+    this.router.get(
+      "/",
+      authentication,
+      (req: Request, res: Response, next: NextFunction) => {
+        KanbanColumnController.getAllColumn(req, res, next);
+      }
+    );
   }
 }
 

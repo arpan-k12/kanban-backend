@@ -11,12 +11,12 @@ export class CardController {
     next: NextFunction
   ) {
     try {
-      const { position } = req.body;
+      const { columnId } = req.body;
       const card_id = req.params.id;
-      if (!card_id || !position) {
+      if (!card_id || !columnId) {
         return next(new AppError("card_id and position are required", 400));
       }
-      const column = await KanbanColumnRepository.getColumnByPosition(position);
+      const column = await KanbanColumnRepository.getColumnById(columnId);
       if (!column) {
         return next(new AppError("Target column not found", 404));
       }
@@ -63,6 +63,17 @@ export class CardController {
       );
     } catch (err) {
       next(err);
+    }
+  }
+  static async getAllCard(req: Request, res: Response, next: NextFunction) {
+    try {
+      const cards = await CardRepository.getAllCards();
+      if (!cards) {
+        return next(new AppError("No cards found", 404));
+      }
+      return sendSuccess(res, "Cards retrieved successfully", cards);
+    } catch (error) {
+      next(error);
     }
   }
 }

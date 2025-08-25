@@ -23,4 +23,10 @@ export class KanbanColumnRepository {
   ): Promise<KanbanColumn | null> {
     return KanbanColumn.findOne({ where: { position } });
   }
+  static async getColumnById(id: string): Promise<KanbanColumn | null> {
+    return KanbanColumn.findByPk(id);
+  }
+  static async getAllColumns(): Promise<KanbanColumn[]> {
+    return KanbanColumn.findAll({ order: [["position", "ASC"]] });
+  }
 }

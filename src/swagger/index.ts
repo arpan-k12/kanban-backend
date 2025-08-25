@@ -1,13 +1,17 @@
-// import { cartPaths } from "./paths/cart.paths";
-// import { categoryPaths } from "./paths/categories.path";
-// import { productsPaths } from "./paths/products.path";
+import { cardPaths } from "./paths/card.path";
+import { customerPaths } from "./paths/customer.path";
+import { decisionPaths } from "./paths/decision.path";
+import { inquiryPaths } from "./paths/inquiry.path";
+import { kanbanColumnPaths } from "./paths/kanbancolumn.path";
+import { quotePaths } from "./paths/quote.path";
 import { userPaths } from "./paths/users.path";
-// import { wishlistPaths } from "./paths/wishlists.path";
-// import { cartSchemas } from "./schemas/cart.schema";
-// import { categorySchemas } from "./schemas/categories.schema";
-// import { productsSchemas } from "./schemas/products.schema";
-// import { userSchemas } from "./schemas/users.schema";
-// import { wishlistSchemas } from "./schemas/wishlists.schema";
+import { cardSchemas } from "./schemas/card.schema";
+import { customerSchemas } from "./schemas/customer.schema";
+import { decisionSchemas } from "./schemas/decision.schema";
+import { inquirySchemas } from "./schemas/inquiry.schema";
+import { kanbanColumnSchemas } from "./schemas/kanbanColumn.schema";
+import { quoteSchemas } from "./schemas/quote.schema";
+import { userSchemas } from "./schemas/users.schema";
 
 const swagger = {
   openapi: "3.0.0",
@@ -19,25 +23,29 @@ const swagger = {
     { name: "Users", description: "Users endpoints" },
     { name: "Customer", description: "Customer endpoints" },
     { name: "Inquiry", description: "Inquiry endpoints" },
-    { name: "Kanbancolumns", description: "Kanbancolumns endpoints" },
+    { name: "KanbanColumn", description: "KanbanColumn endpoints" },
     { name: "Card", description: "Card endpoints" },
     { name: "Quote", description: "Quote endpoints" },
     { name: "Decision", description: "Decision endpoints" },
   ],
   paths: {
     ...userPaths,
-    // ...categoryPaths,
-    // ...productsPaths,
-    // ...wishlistPaths,
-    // ...cartPaths,
+    ...customerPaths,
+    ...inquiryPaths,
+    ...kanbanColumnPaths,
+    ...cardPaths,
+    ...quotePaths,
+    ...decisionPaths,
   },
   components: {
     schemas: {
-      //   ...userSchemas,
-      //   ...categorySchemas,
-      //   ...productsSchemas,
-      //   ...wishlistSchemas,
-      //   ...cartSchemas,
+      ...userSchemas,
+      ...customerSchemas,
+      ...inquirySchemas,
+      ...kanbanColumnSchemas,
+      ...cardSchemas,
+      ...quoteSchemas,
+      ...decisionSchemas,
     },
     securitySchemes: {
       bearerAuth: {

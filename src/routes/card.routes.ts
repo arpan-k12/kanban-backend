@@ -32,6 +32,13 @@ export class CardRouter {
         CardController.addUpdateSummary(req, res, next);
       }
     );
+    this.router.get(
+      "/",
+      authentication,
+      (req: Request, res: Response, next: NextFunction) => {
+        CardController.getAllCard(req, res, next);
+      }
+    );
   }
 }
 
