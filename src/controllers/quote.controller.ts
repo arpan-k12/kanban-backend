@@ -14,16 +14,22 @@ export class QuoteController {
           new AppError("Card ID, amount, and valid_until are required", 400)
         );
       }
-      const card = await CardRepository.getCardById(card_id);
-      if (!card) {
-        return next(new AppError("Card not found", 404));
-      }
-      const newQuote = await QuoteRepository.createQuote({
-        card_id,
+      const quotes = await QuoteRepository.createQuote({
         amount,
         valid_until,
       });
-      return sendSuccess(res, "Quote created successfully", newQuote, 201);
+      if (!quotes) {
+        return next(new AppError("Quote creation failed", 500));
+      }
+
+      const updatedCard = await CardRepository.updateCard(card_id, {
+        quote_id: quotes?.id,
+      });
+      if (!updatedCard) {
+        return next(new AppError("Card not found or update failed", 404));
+      }
+
+      return sendSuccess(res, "Quote created successfully", updatedCard, 201);
     } catch (err) {
       next(err);
     }
@@ -31,16 +37,16 @@ export class QuoteController {
 
   static async update(req: Request, res: Response, next: NextFunction) {
     try {
-      const quote_id = req.params.id;
       const { amount, valid_until } = req.body;
+      const { id } = req.params;
 
-      if (!quote_id || !amount || !valid_until) {
+      if (!id || !amount || !valid_until) {
         return next(
-          new AppError("Quote ID, amount, and valid_until are required", 400)
+          new AppError("Card ID, amount, and valid_until are required", 400)
         );
       }
 
-      const updatedQuote = await QuoteRepository.updateQuote(quote_id, {
+      const updatedQuote = await QuoteRepository.updateQuote(id, {
         amount,
         valid_until,
       });
@@ -49,7 +55,7 @@ export class QuoteController {
         return next(new AppError("Quote not found or update failed", 404));
       }
 
-      return sendSuccess(res, "Quote updated successfully", updatedQuote, 200);
+      return sendSuccess(res, "Quote updated successfully", updatedQuote);
     } catch (err) {
       next(err);
     }

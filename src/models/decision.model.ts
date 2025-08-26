@@ -35,16 +35,6 @@ export class Decision
   })
   id!: string;
 
-  @ForeignKey(() => Cards)
-  @AllowNull(false)
-  @Column({
-    type: DataType.UUID,
-  })
-  card_id!: string;
-
-  @BelongsTo(() => Cards)
-  card!: Cards;
-
   @AllowNull(false)
   @Column(DataType.STRING)
   decision!: string;

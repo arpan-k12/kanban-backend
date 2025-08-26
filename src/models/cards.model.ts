@@ -16,6 +16,8 @@ import { Inquiry } from "./inquiry.model";
 import { Users } from "./users.model";
 import { KanbanColumn } from "./kanbanColumn.model";
 import { CardAttributes, CardCreateAttributes } from "types/models/cards.types";
+import { Quote } from "./quotes.model";
+import { Decision } from "./decision.model";
 
 @DefaultScope(() => ({
   attributes: { exclude: [] },
@@ -62,6 +64,24 @@ export class Cards
 
   @BelongsTo(() => Inquiry)
   inquiry!: Inquiry;
+
+  @ForeignKey(() => Quote)
+  @Column({
+    type: DataType.UUID,
+  })
+  quote_id!: string;
+
+  @BelongsTo(() => Quote)
+  quote!: Quote;
+
+  @ForeignKey(() => Decision)
+  @Column({
+    type: DataType.UUID,
+  })
+  decision_id!: string;
+
+  @BelongsTo(() => Decision)
+  decision!: Decision;
 
   @ForeignKey(() => Users)
   @AllowNull(false)

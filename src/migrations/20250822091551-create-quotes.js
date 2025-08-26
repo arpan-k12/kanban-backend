@@ -11,16 +11,6 @@ export default {
         primaryKey: true,
         allowNull: false,
       },
-      card_id: {
-        type: DataTypes.UUID,
-        allowNull: false,
-        references: {
-          model: "cards",
-          key: "id",
-        },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
-      },
       amount: {
         type: DataTypes.INTEGER,
       },

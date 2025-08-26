@@ -1,6 +1,5 @@
 export interface QuoteAttributes {
   id: string;
-  card_id: string;
   amount: number;
   valid_until: Date;
   createdAt?: Date;

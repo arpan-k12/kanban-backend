@@ -26,7 +26,10 @@ export class CardRepository {
   static async getCardById(id: string): Promise<Cards | null> {
     return Cards.findByPk(id, { include: ["column"] });
   }
-  static async getAllCards(): Promise<Cards[]> {
-    return Cards.findAll({ include: ["column", "inquiry", "customer"] });
+  static async getAllCards(userId: string): Promise<Cards[]> {
+    return Cards.findAll({
+      where: { assigned_to: userId },
+      include: ["column", "inquiry", "customer", "quote", "decision"],
+    });
   }
 }

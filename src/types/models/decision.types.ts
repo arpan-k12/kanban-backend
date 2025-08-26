@@ -1,6 +1,5 @@
 export interface DecisionAttributes {
   id: string;
-  card_id: string;
   decision: string;
   reason?: string;
   createdAt?: Date;

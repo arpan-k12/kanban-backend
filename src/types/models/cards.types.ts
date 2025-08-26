@@ -3,6 +3,8 @@ export interface CardAttributes {
   column_id: string;
   customer_id: string;
   inquiry_id: string;
+  quote_id: string;
+  decision_id: string;
   summary: string;
   assigned_to: string;
   createdAt?: Date;

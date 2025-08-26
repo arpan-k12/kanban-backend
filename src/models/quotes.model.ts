@@ -35,16 +35,6 @@ export class Quote
   })
   id!: string;
 
-  @ForeignKey(() => Cards)
-  @AllowNull(false)
-  @Column({
-    type: DataType.UUID,
-  })
-  card_id!: string;
-
-  @BelongsTo(() => Cards)
-  card!: Cards;
-
   @AllowNull(false)
   @Column(DataType.DECIMAL)
   amount!: number;

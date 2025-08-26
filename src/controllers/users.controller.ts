@@ -9,7 +9,13 @@ import { comparePasswords } from "helper/bcrypthelper";
 export class UserController {
   static async signup(req: Request, res: Response, next: NextFunction) {
     try {
-      const { user_name, email, password, confirmPassword, role } = req.body;
+      const {
+        user_name,
+        email,
+        password,
+        confirmPassword,
+        role = "1",
+      } = req.body;
 
       if (!user_name || !email || !password || !role) {
         return next(new AppError("All fields are required", 400));

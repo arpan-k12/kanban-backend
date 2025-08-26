@@ -37,6 +37,24 @@ export default {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
+      quote_id: {
+        type: DataTypes.UUID,
+        references: {
+          model: "quotes",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
+      decision_id: {
+        type: DataTypes.UUID,
+        references: {
+          model: "decisions",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
       summary: {
         type: DataTypes.STRING,
       },

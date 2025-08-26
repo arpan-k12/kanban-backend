@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { AuthenticatedRequest } from "middlewares/authentication";
 import { CardRepository } from "repositories/cardRepository";
 import { KanbanColumnRepository } from "repositories/kanbanColumnRepository";
 import AppError from "utils/appError";
@@ -65,12 +66,23 @@ export class CardController {
       next(err);
     }
   }
-  static async getAllCard(req: Request, res: Response, next: NextFunction) {
+  static async getAllCard(
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
-      const cards = await CardRepository.getAllCards();
-      if (!cards) {
+      const id = req.user?.id;
+      if (!id) {
+        return next(new AppError("Unauthorized: No user id found", 401));
+      }
+
+      const cards = await CardRepository.getAllCards(id);
+
+      if (!cards || cards.length === 0) {
         return next(new AppError("No cards found", 404));
       }
+
       return sendSuccess(res, "Cards retrieved successfully", cards);
     } catch (error) {
       next(error);

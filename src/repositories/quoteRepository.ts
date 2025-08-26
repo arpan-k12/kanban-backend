@@ -5,6 +5,7 @@ export class QuoteRepository {
   static async createQuote(data: QuoteCreateAttributes): Promise<Quote | null> {
     return Quote.create(data);
   }
+
   static async updateQuote(
     id: string,
     data: Partial<QuoteCreateAttributes>
@@ -14,6 +15,7 @@ export class QuoteRepository {
       return null;
     }
     await quote.update(data);
+    await quote.reload();
     return quote;
   }
 }
