@@ -1,7 +1,31 @@
 import { cardSchemas } from "../schemas/card.schema";
 
 export const cardPaths = {
-  "/api/cards/{id}": {
+  "/api/card": {
+    get: {
+      tags: ["Card"],
+      summary: "Get all cards for logged-in user",
+      security: [{ bearerAuth: [] }],
+      responses: {
+        200: {
+          description: "Cards retrieved successfully",
+          content: {
+            "application/json": {
+              schema: {
+                type: "array",
+                items: cardSchemas.CardSchema,
+              },
+            },
+          },
+        },
+        401: { description: "Unauthorized: No user id found" },
+        404: { description: "No cards found" },
+        500: { description: "Server error" },
+      },
+    },
+  },
+
+  "/api/card/{id}": {
     patch: {
       tags: ["Card"],
       summary: "Update card position",
@@ -37,7 +61,7 @@ export const cardPaths = {
     },
   },
 
-  "/api/cards/summary/{id}": {
+  "/api/card/summary/{id}": {
     patch: {
       tags: ["Card"],
       summary: "Add or update card summary",

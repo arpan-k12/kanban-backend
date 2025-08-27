@@ -2,6 +2,26 @@ import { kanbanColumnSchemas } from "../schemas/kanbanColumn.schema";
 
 export const kanbanColumnPaths = {
   "/api/kanban-columns": {
+    get: {
+      tags: ["KanbanColumn"],
+      summary: "Get all Kanban columns",
+      security: [{ bearerAuth: [] }],
+      responses: {
+        200: {
+          description: "List of all Kanban columns",
+          content: {
+            "application/json": {
+              schema: {
+                type: "array",
+                items: kanbanColumnSchemas.KanbanColumnSchema,
+              },
+            },
+          },
+        },
+        500: { description: "Server error" },
+      },
+    },
+
     post: {
       tags: ["KanbanColumn"],
       summary: "Create a new Kanban column",
