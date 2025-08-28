@@ -22,7 +22,7 @@ const sequelize = new Sequelize({
   password: DB_PASSWORD,
   database: DB_NAME,
   logging: true,
-  models: [Users, Customers, Inquiry, KanbanColumn, Cards, Decision, Quote],
+  models: [Users, Customers, Inquiry, KanbanColumn, Quote, Decision, Cards],
   define: {
     underscored: true,
   },
