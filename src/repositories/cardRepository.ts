@@ -1,4 +1,10 @@
+import { sortFieldMap } from "helper/sortFields";
 import { Cards } from "models/cards.model";
+import { Customers } from "models/customer.model";
+import { Decision } from "models/decision.model";
+import { Inquiry } from "models/inquiry.model";
+import { KanbanColumn } from "models/kanbanColumn.model";
+import { Quote } from "models/quotes.model";
 import { CardCreateAttributes } from "types/models/cards.types";
 
 export class CardRepository {
@@ -26,10 +32,21 @@ export class CardRepository {
   static async getCardById(id: string): Promise<Cards | null> {
     return Cards.findByPk(id, { include: ["column"] });
   }
+  // static async getAllCards(userId: string): Promise<Cards[]> {
+  //   return Cards.findAll({
+  //     where: { assigned_to: userId },
+  //     include: ["column", "inquiry", "customer", "quote", "decision"],
+  //   });
+  // }
+
   static async getAllCards(userId: string): Promise<Cards[]> {
     return Cards.findAll({
       where: { assigned_to: userId },
       include: ["column", "inquiry", "customer", "quote", "decision"],
+      order: [
+        ["column_id", "ASC"],
+        ["card_position", "ASC"],
+      ],
     });
   }
 
@@ -118,4 +135,116 @@ export class CardRepository {
       { where: { id: card_id } }
     );
   }
+  static async getAllCardsWithColumnSort(
+    userId: string,
+    columnId?: string,
+    sort?: string
+  ): Promise<Cards[]> {
+    // Fetch all cards with relations
+    const cards = await Cards.findAll({
+      where: { assigned_to: userId },
+      include: [
+        { model: KanbanColumn, as: "column" },
+        { model: Inquiry, as: "inquiry" },
+        { model: Customers, as: "customer" },
+        { model: Quote, as: "quote" },
+        { model: Decision, as: "decision" },
+      ],
+      order: [
+        ["column_id", "ASC"],
+        ["card_position", "ASC"],
+      ],
+    });
+
+    if (columnId && sort) {
+      const [rawKey, directionRaw] = sort.split(":");
+      const direction =
+        directionRaw && directionRaw.toLowerCase() === "desc" ? "DESC" : "ASC";
+
+      // Get mapping (from earlier map)
+      const mapping = sortFieldMap[rawKey];
+
+      if (mapping) {
+        // Separate column cards vs others
+        const targetCards = cards.filter((c) => c.column_id === columnId);
+        const otherCards = cards.filter((c) => c.column_id !== columnId);
+
+        // Sort only target column
+        targetCards.sort((a: any, b: any) => {
+          let aVal, bVal;
+
+          if (mapping.assoc) {
+            aVal = (a as any)[mapping.assoc]?.[mapping.field];
+            bVal = (b as any)[mapping.assoc]?.[mapping.field];
+          } else {
+            aVal = (a as any)[mapping.field];
+            bVal = (b as any)[mapping.field];
+          }
+
+          if (aVal == null) return 1;
+          if (bVal == null) return -1;
+
+          if (aVal < bVal) return direction === "ASC" ? -1 : 1;
+          if (aVal > bVal) return direction === "ASC" ? 1 : -1;
+          return 0;
+        });
+
+        // Merge back and return
+        return [...otherCards, ...targetCards];
+      }
+    }
+
+    return cards;
+  }
+  // static async getAllCardsWithColumnSort(
+  //   columnId: string,
+  //   sort?: string
+  // ): Promise<Cards[]> {
+  //   let order: any[] = [["card_position", "ASC"]]; // default
+
+  //   if (sort) {
+  //     const [rawKey, directionRaw] = sort.split(":");
+  //     const direction =
+  //       directionRaw && directionRaw.toLowerCase() === "desc" ? "DESC" : "ASC";
+
+  //     const mapping = sortFieldMap[rawKey];
+
+  //     if (mapping) {
+  //       if (mapping.assoc) {
+  //         order = [
+  //           [
+  //             { model: this.getModelByAlias(mapping.assoc), as: mapping.assoc },
+  //             mapping.field,
+  //             direction,
+  //           ],
+  //         ];
+  //       } else {
+  //         order = [[mapping.field, direction]];
+  //       }
+  //     }
+  //   }
+
+  //   return Cards.findAll({
+  //     where: { column_id: columnId },
+  //     include: [
+  //       { model: KanbanColumn, as: "column" },
+  //       { model: Inquiry, as: "inquiry" },
+  //       { model: Customers, as: "customer" },
+  //       { model: Quote, as: "quote" },
+  //       { model: Decision, as: "decision" },
+  //     ],
+  //     order,
+  //   });
+  // }
+
+  // private static getModelByAlias(alias: string) {
+  //   const map: Record<string, any> = {
+  //     inquiry: Inquiry,
+  //     customer: Customers,
+  //     column: KanbanColumn,
+  //     quote: Quote,
+  //     decision: Decision,
+  //   };
+  //   return map[alias];
+  // }
 }
