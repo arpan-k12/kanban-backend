@@ -12,25 +12,59 @@ export class CardController {
     next: NextFunction
   ) {
     try {
-      const { columnId } = req.body;
+      const { columnId, card_position } = req.body;
       const card_id = req.params.id;
-      if (!card_id || !columnId) {
-        return next(new AppError("card_id and position are required", 400));
+
+      // if (!card_id || !columnId) {
+      //   return next(new AppError("card_id and position are required", 400));
+      // }
+      // const column = await KanbanColumnRepository.getColumnById(columnId);
+      // if (!column) {
+      //   return next(new AppError("Target column not found", 404));
+      // }
+      // const updatedCard = await CardRepository.updateCard(card_id, {
+      //   column_id: column.id,
+      // });
+      // if (!updatedCard) {
+      //   return next(new AppError("Card not found or update failed", 404));
+      // }
+
+      if (!card_id || !columnId || card_position == null) {
+        return next(
+          new AppError("card_id, columnId and card_position are required", 400)
+        );
       }
-      const column = await KanbanColumnRepository.getColumnById(columnId);
-      if (!column) {
-        return next(new AppError("Target column not found", 404));
+
+      const card = await CardRepository.getCardById(card_id);
+      if (!card) {
+        return next(new AppError("Card not found", 404));
       }
-      const updatedCard = await CardRepository.updateCard(card_id, {
-        column_id: column.id,
-      });
-      if (!updatedCard) {
-        return next(new AppError("Card not found or update failed", 404));
+      const sourceColumnId = card.column_id;
+
+      if (sourceColumnId === columnId) {
+        await CardRepository.shiftCardWithinColumn(
+          card_id,
+          columnId,
+          card.card_position,
+          card_position
+        );
+      } else {
+        await CardRepository.removeCardFromColumn(card_id, sourceColumnId);
+        await CardRepository.insertCardToColumn(
+          card_id,
+          columnId,
+          card_position
+        );
+        await CardRepository.reorderColumnCards(sourceColumnId);
       }
+      await CardRepository.reorderColumnCards(columnId);
+
+      const updatedCards = await CardRepository.getCardsByColumnId(columnId);
+
       return sendSuccess(
         res,
         "Card position updated successfully",
-        updatedCard,
+        updatedCards,
         200
       );
     } catch (err) {

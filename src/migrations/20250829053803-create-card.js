@@ -19,6 +19,10 @@ export default {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
+      card_position: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
       customer_id: {
         type: DataTypes.UUID,
         references: {

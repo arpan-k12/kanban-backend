@@ -47,6 +47,12 @@ export class Cards
   @BelongsTo(() => KanbanColumn)
   column!: KanbanColumn;
 
+  @AllowNull(false)
+  @Column({
+    type: DataType.INTEGER,
+  })
+  card_position!: number;
+
   @ForeignKey(() => Customers)
   @Column({
     type: DataType.UUID,
