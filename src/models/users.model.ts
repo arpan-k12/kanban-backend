@@ -9,6 +9,8 @@ import {
   DefaultScope,
   BeforeCreate,
   Default,
+  ForeignKey,
+  BelongsTo,
 } from "sequelize-typescript";
 import bcrypt from "bcrypt";
 import AppError from "../utils/appError";
@@ -16,6 +18,7 @@ import {
   UsersAttributes,
   UsersCreateAttributes,
 } from "../types/models/users.types";
+import { Organization } from "./organization.model";
 
 @DefaultScope(() => ({
   attributes: { exclude: ["password"] },
@@ -53,6 +56,15 @@ export class Users
   @AllowNull(false)
   @Column(DataType.VIRTUAL)
   confirmPassword?: string;
+
+  @ForeignKey(() => Organization)
+  @Column({
+    type: DataType.UUID,
+  })
+  organization_id!: string;
+
+  @BelongsTo(() => Organization)
+  organization!: Organization;
 
   @Column({
     field: "createdAt",

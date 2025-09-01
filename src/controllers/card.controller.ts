@@ -15,20 +15,6 @@ export class CardController {
       const { columnId, card_position } = req.body;
       const card_id = req.params.id;
 
-      // if (!card_id || !columnId) {
-      //   return next(new AppError("card_id and position are required", 400));
-      // }
-      // const column = await KanbanColumnRepository.getColumnById(columnId);
-      // if (!column) {
-      //   return next(new AppError("Target column not found", 404));
-      // }
-      // const updatedCard = await CardRepository.updateCard(card_id, {
-      //   column_id: column.id,
-      // });
-      // if (!updatedCard) {
-      //   return next(new AppError("Card not found or update failed", 404));
-      // }
-
       if (!card_id || !columnId || card_position == null) {
         return next(
           new AppError("card_id, columnId and card_position are required", 400)

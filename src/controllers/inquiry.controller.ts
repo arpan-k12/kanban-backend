@@ -35,7 +35,7 @@ export class InquiryController {
         return res.status(400).json({ message: "Default column not found" });
       }
 
-      const maxPosition = await CardRepository.getMaxCardPosition(column.id);
+      await CardRepository.incrementCardPositions(column.id);
 
       const card = await CardRepository.createCard({
         column_id: column.id,
@@ -43,7 +43,7 @@ export class InquiryController {
         inquiry_id: newInquiry?.id,
         assigned_to: req?.user?.id,
         summary: req.body.summary || "",
-        card_position: maxPosition ? maxPosition + 1 : 1,
+        card_position: 1,
       });
 
       if (!card) {

@@ -13,6 +13,7 @@ import { KanbanColumn } from "models/kanbanColumn.model";
 import { Cards } from "models/cards.model";
 import { Decision } from "models/decision.model";
 import { Quote } from "models/quotes.model";
+import { Organization } from "models/organization.model";
 
 const sequelize = new Sequelize({
   dialect: "postgres",
@@ -22,7 +23,16 @@ const sequelize = new Sequelize({
   password: DB_PASSWORD,
   database: DB_NAME,
   logging: true,
-  models: [Users, Customers, Inquiry, KanbanColumn, Quote, Decision, Cards],
+  models: [
+    Organization,
+    Users,
+    Customers,
+    Inquiry,
+    KanbanColumn,
+    Quote,
+    Decision,
+    Cards,
+  ],
   define: {
     underscored: true,
   },

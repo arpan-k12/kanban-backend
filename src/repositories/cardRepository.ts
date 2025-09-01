@@ -12,6 +12,13 @@ export class CardRepository {
     return Cards.create(data);
   }
 
+  static async incrementCardPositions(columnId: string): Promise<void> {
+    await Cards.increment(
+      { card_position: 1 },
+      { where: { column_id: columnId } }
+    );
+  }
+
   static async getCardByInquiryId(inquiry_id: string): Promise<Cards | null> {
     return Cards.findOne({ where: { inquiry_id } });
   }

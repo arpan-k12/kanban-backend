@@ -6,6 +6,7 @@ import kanbanColumnRouter from "./kanbanColumn.routes";
 import cardRouter from "./card.routes";
 import decisionRouter from "./decision.route";
 import quoteRouter from "./quote.routes";
+import organization from "./organization.routes";
 
 export class IndexRouter {
   public router: Router;
@@ -23,6 +24,7 @@ export class IndexRouter {
     this.router.use("/api/card", cardRouter);
     this.router.use("/api/quote", quoteRouter);
     this.router.use("/api/decision", decisionRouter);
+    this.router.use("/api/organization", organization);
   }
 }
 
