@@ -21,7 +21,6 @@ export class OrganizationController {
           )
         );
       }
-
       const organization = await OrganizationRepository.createOrganization({
         name,
         address,
@@ -29,10 +28,12 @@ export class OrganizationController {
         industry,
       });
 
-      return res.status(201).json({
-        message: "Organization created successfully",
-        data: organization,
-      });
+      return sendSuccess(
+        res,
+        "Organization created successfully",
+        organization,
+        201
+      );
     } catch (error) {
       next(error);
     }
@@ -50,6 +51,102 @@ export class OrganizationController {
       );
     } catch (err) {
       next(err);
+    }
+  }
+
+  static async update(
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { id } = req.params;
+      const { name, address, phone, industry } = req.body;
+
+      if (!id) {
+        return next(new AppError("Organization ID is required", 400));
+      }
+
+      if (!name || !address || !phone || !industry) {
+        return next(new AppError("All fields are required", 400));
+      }
+
+      const organization = await OrganizationRepository.findById(id);
+
+      if (!organization) {
+        return next(new AppError("Organization not found", 404));
+      }
+
+      const updatedOrganization =
+        await OrganizationRepository.updateOrganization(id, {
+          name,
+          address,
+          phone,
+          industry,
+        });
+
+      return sendSuccess(
+        res,
+        "Organization updated successfully",
+        updatedOrganization,
+        200
+      );
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async delete(
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { id } = req.params;
+
+      if (!id) {
+        return next(new AppError("Organization ID is required", 400));
+      }
+
+      const organization = await OrganizationRepository.findById(id);
+
+      if (!organization) {
+        return next(new AppError("Organization not found", 404));
+      }
+
+      await OrganizationRepository.deleteOrganization(id);
+
+      return sendSuccess(res, "Organization deleted successfully", null, 200);
+    } catch (error) {
+      next(error);
+    }
+  }
+  static async getOrgById(
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { id } = req.params;
+
+      if (!id) {
+        return next(new AppError("Organization ID is required", 400));
+      }
+
+      const organization = await OrganizationRepository.findById(id);
+
+      if (!organization) {
+        return next(new AppError("Organization not found", 404));
+      }
+
+      return sendSuccess(
+        res,
+        "Organization fetched successfully",
+        organization,
+        200
+      );
+    } catch (error) {
+      next(error);
     }
   }
 }

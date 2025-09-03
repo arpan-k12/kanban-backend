@@ -18,6 +18,7 @@ import { KanbanColumn } from "./kanbanColumn.model";
 import { CardAttributes, CardCreateAttributes } from "types/models/cards.types";
 import { Quote } from "./quotes.model";
 import { Decision } from "./decision.model";
+import { Organization } from "./organization.model";
 
 @DefaultScope(() => ({
   attributes: { exclude: [] },
@@ -37,6 +38,15 @@ export class Cards
     defaultValue: DataType.UUIDV4,
   })
   id!: string;
+
+  @ForeignKey(() => Organization)
+  @Column({
+    type: DataType.UUID,
+  })
+  organization_id!: string;
+
+  @BelongsTo(() => Organization)
+  Organization!: Organization;
 
   @ForeignKey(() => KanbanColumn)
   @Column({

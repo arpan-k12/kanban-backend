@@ -2,48 +2,48 @@ import { DataTypes } from "sequelize";
 
 /** @type {import('sequelize-cli').Migration} */
 export default {
-  async up(queryInterface) {
-    await queryInterface.createTable("users", {
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable("users_organizations", {
       id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
         allowNull: false,
       },
-      role: {
-        type: DataTypes.ENUM("0", "1"),
+      user_id: {
+        type: DataTypes.UUID,
         allowNull: false,
+        references: {
+          model: "users",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
-      user_name: {
-        type: DataTypes.STRING,
+      organization_id: {
+        type: DataTypes.UUID,
         allowNull: false,
-      },
-      email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-      },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        references: {
+          model: "organizations",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
       },
       updatedAt: {
         allowNull: false,
         type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
       },
       deletedAt: {
         type: DataTypes.DATE,
       },
     });
   },
-
   async down(queryInterface) {
-    await queryInterface.dropTable("users");
+    await queryInterface.dropTable("users_organizations");
   },
 };

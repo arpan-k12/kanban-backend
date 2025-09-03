@@ -57,15 +57,6 @@ export class Users
   @Column(DataType.VIRTUAL)
   confirmPassword?: string;
 
-  @ForeignKey(() => Organization)
-  @Column({
-    type: DataType.UUID,
-  })
-  organization_id!: string;
-
-  @BelongsTo(() => Organization)
-  organization!: Organization;
-
   @Column({
     field: "createdAt",
     type: DataType.DATE,

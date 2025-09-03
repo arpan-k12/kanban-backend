@@ -18,4 +18,8 @@ export class UserRepository {
   static async UserFindByPk(id: string | any): Promise<Users | null> {
     return Users.findByPk(id);
   }
+
+  static async findAll(): Promise<Users[]> {
+    return Users.findAll();
+  }
 }

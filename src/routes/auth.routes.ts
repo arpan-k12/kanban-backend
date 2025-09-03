@@ -1,4 +1,4 @@
-import { UserController } from "controllers/users.controller";
+import { AuthController } from "controllers/auth.controller";
 import { Router, Request, Response, NextFunction } from "express";
 
 export class AuthRouter {
@@ -13,13 +13,13 @@ export class AuthRouter {
     this.router.post(
       "/signup",
       (req: Request, res: Response, next: NextFunction) => {
-        UserController.signup(req, res, next);
+        AuthController.signup(req, res, next);
       }
     );
     this.router.post(
       "/signin",
       (req: Request, res: Response, next: NextFunction) => {
-        UserController.signin(req, res, next);
+        AuthController.signin(req, res, next);
       }
     );
   }

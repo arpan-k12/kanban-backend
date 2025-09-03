@@ -10,6 +10,15 @@ export default {
         primaryKey: true,
         allowNull: false,
       },
+      organization_id: {
+        type: DataTypes.UUID,
+        references: {
+          model: "organizations",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
       column_id: {
         type: DataTypes.UUID,
         references: {
