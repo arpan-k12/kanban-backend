@@ -27,9 +27,15 @@ import { Organization } from "./organization.model";
   attributes: { exclude: [] },
 }))
 @Table({
-  tableName: "cards",
+  tableName: "users_organizations",
   paranoid: true,
   timestamps: true,
+  indexes: [
+    {
+      unique: true,
+      fields: ["user_id", "organization_id"],
+    },
+  ],
 })
 export class UsersOrganization
   extends Model<UsersOrganizationAttributes, UsersOrganizationCreateAttributes>
@@ -59,6 +65,12 @@ export class UsersOrganization
 
   @BelongsTo(() => Organization)
   organization!: Organization;
+
+  @Column({
+    field: "createdAt",
+    type: DataType.DATE,
+  })
+  createdAt!: Date;
 
   @Column({
     field: "updatedAt",

@@ -12,12 +12,28 @@ export class userOrganizationRouter {
   }
 
   private initializeRoutes() {
-    this.router.get(
+    this.router.put(
       "/assign-org",
       authentication,
       AuthMiddleware.restrictTo("0"),
       (req: Request, res: Response, next: NextFunction) => {
         userOrganizationController.assignOrganization(req, res, next);
+      }
+    );
+    this.router.get(
+      "/",
+      authentication,
+      AuthMiddleware.restrictTo("0"),
+      (req: Request, res: Response, next: NextFunction) => {
+        userOrganizationController.getUserOrganization(req, res, next);
+      }
+    );
+    this.router.get(
+      "/:id",
+      authentication,
+      AuthMiddleware.restrictTo("0"),
+      (req: Request, res: Response, next: NextFunction) => {
+        userOrganizationController.getUserOrganizationById(req, res, next);
       }
     );
   }

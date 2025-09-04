@@ -1,5 +1,6 @@
 export interface CardAttributes {
   id: string;
+  organization_id: string;
   column_id: string;
   card_position: number;
   customer_id: string;

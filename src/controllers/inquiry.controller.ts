@@ -4,6 +4,7 @@ import { CardRepository } from "repositories/cardRepository";
 import { CustomerRepository } from "repositories/customerRepository";
 import { InquiryRepository } from "repositories/inquiryRepository";
 import { KanbanColumnRepository } from "repositories/kanbanColumnRepository";
+import { userOrganizationRepository } from "repositories/userOrganizationRepository";
 import AppError from "utils/appError";
 import { sendSuccess } from "utils/commonResponse";
 
@@ -14,10 +15,26 @@ export class InquiryController {
     next: NextFunction
   ) {
     try {
-      const { customer_id, commodity, budget } = req.body;
-      if (!customer_id || !commodity || !budget) {
+      const { organization_id, customer_id, commodity, budget } = req.body;
+      const id = req.user?.id;
+      if (!organization_id || !customer_id || !commodity || !budget) {
+        return next(new AppError("all fields are required", 400));
+      }
+      if (!id) {
+        return next(new AppError("Unauthorized: No user id found", 401));
+      }
+
+      const userOrg = await userOrganizationRepository.checkUserInOrganization(
+        id,
+        organization_id
+      );
+
+      if (!userOrg) {
         return next(
-          new AppError("Customer ID, commodity, and budget are required", 400)
+          new AppError(
+            "User does not belong to this organization. Access denied.",
+            401
+          )
         );
       }
       const customer = await CustomerRepository.getCustomerById(customer_id);
@@ -38,6 +55,7 @@ export class InquiryController {
       await CardRepository.incrementCardPositions(column.id);
 
       const card = await CardRepository.createCard({
+        organization_id: organization_id,
         column_id: column.id,
         customer_id: newInquiry?.customer_id,
         inquiry_id: newInquiry?.id,

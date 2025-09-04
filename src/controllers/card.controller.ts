@@ -93,18 +93,19 @@ export class CardController {
   ) {
     try {
       const id = req.user?.id;
-      const { columnId, sort } = req.query;
+      const { columnId, sort, organizationId } = req.query;
 
       if (!id) {
         return next(new AppError("Unauthorized: No user id found", 401));
       }
 
       let cards;
-      if (columnId && sort) {
+      if ((columnId && sort) || organizationId) {
         cards = await CardRepository.getAllCardsWithColumnSort(
           id as string,
           columnId as string,
-          sort as string
+          sort as string,
+          organizationId as string
         );
       } else {
         cards = await CardRepository.getAllCards(id);

@@ -6,12 +6,15 @@ import {
   PrimaryKey,
   AllowNull,
   DefaultScope,
+  BelongsToMany,
 } from "sequelize-typescript";
 
 import {
   OrganizationAttributes,
   OrganizationCreateAttributes,
 } from "../types/models/organization.types";
+import { Users } from "./users.model";
+import { UsersOrganization } from "./usersOrganization.model";
 
 @DefaultScope(() => ({
   attributes: { exclude: [] },
@@ -35,6 +38,9 @@ export class Organization
   @AllowNull(false)
   @Column(DataType.STRING)
   name!: string;
+
+  @BelongsToMany(() => Users, () => UsersOrganization)
+  users!: Users[];
 
   @AllowNull(false)
   @Column(DataType.TEXT)

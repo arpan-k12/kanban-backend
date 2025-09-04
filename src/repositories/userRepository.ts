@@ -1,4 +1,6 @@
+import { UsersOrganization } from "models/usersOrganization.model";
 import { Users } from "../models/users.model";
+import { Organization } from "models/organization.model";
 
 export class UserRepository {
   static async findByEmail(email: string): Promise<Users | null> {
@@ -21,5 +23,17 @@ export class UserRepository {
 
   static async findAll(): Promise<Users[]> {
     return Users.findAll();
+  }
+
+  static async findOrganizationByUserId(user_id: string) {
+    return await UsersOrganization.findOne({
+      where: { user_id },
+      include: [
+        {
+          model: Organization,
+          attributes: ["id", "name", "industry"],
+        },
+      ],
+    });
   }
 }

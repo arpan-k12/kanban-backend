@@ -145,11 +145,12 @@ export class CardRepository {
   static async getAllCardsWithColumnSort(
     userId: string,
     columnId?: string,
-    sort?: string
+    sort?: string,
+    organizationId?: string
   ): Promise<Cards[]> {
     // Fetch all cards with relations
     const cards = await Cards.findAll({
-      where: { assigned_to: userId },
+      where: { assigned_to: userId, organization_id: organizationId },
       include: [
         { model: KanbanColumn, as: "column" },
         { model: Inquiry, as: "inquiry" },

@@ -14,7 +14,7 @@ import { Cards } from "models/cards.model";
 import { Decision } from "models/decision.model";
 import { Quote } from "models/quotes.model";
 import { Organization } from "models/organization.model";
-import { UsersOrganization } from "models/users_organization.model";
+import { UsersOrganization } from "models/usersOrganization.model";
 
 const sequelize = new Sequelize({
   dialect: "postgres",

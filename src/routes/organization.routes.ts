@@ -23,7 +23,7 @@ export class OrganizationRouter {
     this.router.get(
       "/",
       authentication,
-      AuthMiddleware.restrictTo("0"),
+      // AuthMiddleware.restrictTo("0"),
       (req: Request, res: Response, next: NextFunction) => {
         OrganizationController.get(req, res, next);
       }

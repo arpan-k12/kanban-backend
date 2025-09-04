@@ -11,6 +11,7 @@ import {
   Default,
   ForeignKey,
   BelongsTo,
+  BelongsToMany,
 } from "sequelize-typescript";
 import bcrypt from "bcrypt";
 import AppError from "../utils/appError";
@@ -19,6 +20,7 @@ import {
   UsersCreateAttributes,
 } from "../types/models/users.types";
 import { Organization } from "./organization.model";
+import { UsersOrganization } from "./usersOrganization.model";
 
 @DefaultScope(() => ({
   attributes: { exclude: ["password"] },
@@ -48,6 +50,9 @@ export class Users
   @AllowNull(false)
   @Column(DataType.STRING)
   email!: string;
+
+  @BelongsToMany(() => Organization, () => UsersOrganization)
+  organizations!: Organization[];
 
   @AllowNull(false)
   @Column(DataType.STRING)

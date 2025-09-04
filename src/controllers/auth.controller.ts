@@ -74,7 +74,7 @@ export class AuthController {
       const user: Users | null = await UserRepository.findByEmailSignin(email);
 
       if (!user) {
-        return next(new AppError("User not found", 404));
+        return next(new AppError("Invalid credentials", 401));
       }
 
       const isMatch = await comparePasswords(password, user.password);
@@ -89,11 +89,38 @@ export class AuthController {
         ...userData
       } = user.get({ plain: true });
 
+      const userOrg = await UserRepository.findOrganizationByUserId(user.id);
+
+      let organization = null;
+      if (userOrg && userOrg.organization) {
+        organization = userOrg.organization;
+      }
+
       const token = generateToken({
         id: user.id,
       });
 
-      return sendSuccess(res, "Login successful", { ...userData }, 200, token);
+      // const {
+      //   password: _,
+      //   confirmPassword,
+      //   deletedAt,
+      //   ...userData
+      // } = user.get({ plain: true });
+
+      // const token = generateToken({
+      //   id: user.id,
+      // });
+
+      return sendSuccess(
+        res,
+        "Login successful",
+        {
+          ...userData,
+          organization,
+        },
+        200,
+        token
+      );
     } catch (err) {
       next(err);
     }
