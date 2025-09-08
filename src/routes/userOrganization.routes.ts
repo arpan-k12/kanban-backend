@@ -31,9 +31,9 @@ export class userOrganizationRouter {
     this.router.get(
       "/:id",
       authentication,
-      AuthMiddleware.restrictTo("0"),
+      // AuthMiddleware.restrictTo("0"),
       (req: Request, res: Response, next: NextFunction) => {
-        userOrganizationController.getUserOrganizationById(req, res, next);
+        userOrganizationController.getUserOrganizationsById(req, res, next);
       }
     );
   }

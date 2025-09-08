@@ -11,16 +11,11 @@ import {
   Default,
 } from "sequelize-typescript";
 
-import { Customers } from "./customer.model";
-import { Inquiry } from "./inquiry.model";
 import { Users } from "./users.model";
-import { KanbanColumn } from "./kanbanColumn.model";
 import {
   UsersOrganizationAttributes,
   UsersOrganizationCreateAttributes,
 } from "types/models/user_organization.type";
-import { Quote } from "./quotes.model";
-import { Decision } from "./decision.model";
 import { Organization } from "./organization.model";
 
 @DefaultScope(() => ({
@@ -49,6 +44,7 @@ export class UsersOrganization
   id!: string;
 
   @ForeignKey(() => Users)
+  @AllowNull(false)
   @Column({
     type: DataType.UUID,
   })

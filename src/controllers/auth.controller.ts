@@ -82,24 +82,6 @@ export class AuthController {
         return next(new AppError("Invalid credentials", 401));
       }
 
-      const {
-        password: _,
-        confirmPassword,
-        deletedAt,
-        ...userData
-      } = user.get({ plain: true });
-
-      const userOrg = await UserRepository.findOrganizationByUserId(user.id);
-
-      let organization = null;
-      if (userOrg && userOrg.organization) {
-        organization = userOrg.organization;
-      }
-
-      const token = generateToken({
-        id: user.id,
-      });
-
       // const {
       //   password: _,
       //   confirmPassword,
@@ -107,16 +89,33 @@ export class AuthController {
       //   ...userData
       // } = user.get({ plain: true });
 
+      // const userOrg = await UserRepository.findOrganizationByUserId(user.id);
+
+      // let organization = null;
+      // if (userOrg && userOrg.organization) {
+      //   organization = userOrg.organization;
+      // }
+
       // const token = generateToken({
       //   id: user.id,
       // });
+
+      const {
+        password: _,
+        confirmPassword,
+        deletedAt,
+        ...userData
+      } = user.get({ plain: true });
+
+      const token = generateToken({
+        id: user.id,
+      });
 
       return sendSuccess(
         res,
         "Login successful",
         {
           ...userData,
-          organization,
         },
         200,
         token

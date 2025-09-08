@@ -3,22 +3,22 @@ import { Users } from "models/users.model";
 import { UsersOrganization } from "models/usersOrganization.model";
 
 export class userOrganizationRepository {
-  static async assignUserToOrganization(
-    user_id: string,
-    organization_id: string
-  ) {
-    const existing = await UsersOrganization.findOne({
-      where: { user_id },
-    });
+  // static async assignUserToOrganization(
+  //   user_id: string,
+  //   organization_id: string
+  // ) {
+  //   const existing = await UsersOrganization.findOne({
+  //     where: { user_id },
+  //   });
 
-    if (existing) {
-      existing.organization_id = organization_id;
-      await existing.save();
-      return existing;
-    }
+  //   if (existing) {
+  //     existing.organization_id = organization_id;
+  //     await existing.save();
+  //     return existing;
+  //   }
 
-    return await UsersOrganization.create({ user_id, organization_id });
-  }
+  //   return await UsersOrganization.create({ user_id, organization_id });
+  // }
 
   static async getAllUserOrganizations() {
     return await Users.findAll({
@@ -31,13 +31,12 @@ export class userOrganizationRepository {
     });
   }
   static async getUserOrganizationById(id: string) {
-    return await UsersOrganization.findByPk(id, {
-      attributes: [
-        "id",
-        "user_id",
-        "organization_id",
-        "createdAt",
-        "updatedAt",
+    return await Users.findByPk(id, {
+      include: [
+        {
+          model: Organization,
+          through: { attributes: [] },
+        },
       ],
     });
   }

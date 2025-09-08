@@ -25,15 +25,15 @@ export class UserRepository {
     return Users.findAll();
   }
 
-  static async findOrganizationByUserId(user_id: string) {
-    return await UsersOrganization.findOne({
-      where: { user_id },
-      include: [
-        {
-          model: Organization,
-          attributes: ["id", "name", "industry"],
-        },
-      ],
-    });
-  }
+  // static async findOrganizationByUserId(user_id: string) {
+  //   return await UsersOrganization.findOne({
+  //     where: { user_id },
+  //     include: [
+  //       {
+  //         model: Organization,
+  //         attributes: ["id", "name", "industry"],
+  //       },
+  //     ],
+  //   });
+  // }
 }

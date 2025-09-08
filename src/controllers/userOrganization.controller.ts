@@ -42,13 +42,6 @@ export class userOrganizationController {
     next: NextFunction
   ) {
     try {
-      // const userOrganizations =
-      //   await userOrganizationRepository.getAllUserOrganizations();
-
-      // if (!userOrganizations || userOrganizations.length === 0) {
-      //   return next(new AppError("No user-organization records found", 404));
-      // }
-
       const users = await userOrganizationRepository.getAllUserOrganizations();
 
       if (!users || users.length === 0) {
@@ -65,7 +58,8 @@ export class userOrganizationController {
       next(error);
     }
   }
-  static async getUserOrganizationById(
+
+  static async getUserOrganizationsById(
     req: Request,
     res: Response,
     next: NextFunction

@@ -15,6 +15,9 @@ import { Decision } from "models/decision.model";
 import { Quote } from "models/quotes.model";
 import { Organization } from "models/organization.model";
 import { UsersOrganization } from "models/usersOrganization.model";
+import { Permission } from "models/permission.model";
+import { Features } from "models/features.model";
+import { UserPermissions } from "models/userpermissions.model";
 
 const sequelize = new Sequelize({
   dialect: "postgres",
@@ -34,6 +37,9 @@ const sequelize = new Sequelize({
     Decision,
     Cards,
     UsersOrganization,
+    Permission,
+    Features,
+    UserPermissions,
   ],
   define: {
     underscored: true,
