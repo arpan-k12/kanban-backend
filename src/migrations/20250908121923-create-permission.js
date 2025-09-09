@@ -21,6 +21,9 @@ export default {
         allowNull: false,
         type: DataTypes.DATE,
       },
+      deletedAt: {
+        type: DataTypes.DATE,
+      },
     });
   },
   async down(queryInterface) {

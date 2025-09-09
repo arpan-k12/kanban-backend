@@ -10,7 +10,7 @@ export default {
         primaryKey: true,
         allowNull: false,
       },
-      featureName: {
+      feature_name: {
         type: DataTypes.STRING,
       },
       createdAt: {
@@ -19,6 +19,9 @@ export default {
       },
       updatedAt: {
         allowNull: false,
+        type: DataTypes.DATE,
+      },
+      deletedAt: {
         type: DataTypes.DATE,
       },
     });

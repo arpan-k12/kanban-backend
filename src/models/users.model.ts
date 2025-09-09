@@ -12,6 +12,7 @@ import {
   ForeignKey,
   BelongsTo,
   BelongsToMany,
+  HasMany,
 } from "sequelize-typescript";
 import bcrypt from "bcrypt";
 import AppError from "../utils/appError";
@@ -21,6 +22,13 @@ import {
 } from "../types/models/users.types";
 import { Organization } from "./organization.model";
 import { UsersOrganization } from "./usersOrganization.model";
+import { OrganizationAttributes } from "types/models/organization.types";
+import { UserPermissions } from "./userpermissions.model";
+import { UserPermissionsAttributes } from "types/models/userPermissions.type";
+import { Permission } from "./permission.model";
+import { PermissionAttributes } from "types/models/permission.type";
+import { Features } from "./features.model";
+import { FeaturesAttributes } from "types/models/feature.type";
 
 @DefaultScope(() => ({
   attributes: { exclude: ["password"] },
@@ -35,8 +43,10 @@ export class Users
   implements UsersAttributes
 {
   @PrimaryKey
-  @Default(DataType.UUIDV4)
-  @Column(DataType.UUID)
+  @Column({
+    type: DataType.UUID,
+    defaultValue: DataType.UUIDV4,
+  })
   id!: string;
 
   @AllowNull(false)
@@ -52,7 +62,7 @@ export class Users
   email!: string;
 
   @BelongsToMany(() => Organization, () => UsersOrganization)
-  organizations!: Organization[];
+  organizations!: OrganizationAttributes[];
 
   @AllowNull(false)
   @Column(DataType.STRING)
@@ -95,4 +105,14 @@ export class Users
 
     instance.password = await bcrypt.hash(instance.password, 10);
   }
+
+  // relations
+  @HasMany(() => UserPermissions)
+  userPermissions!: UserPermissionsAttributes[];
+
+  @BelongsToMany(() => Permission, () => UserPermissions)
+  permissions!: PermissionAttributes[];
+
+  @BelongsToMany(() => Features, () => UserPermissions)
+  features!: FeaturesAttributes[];
 }

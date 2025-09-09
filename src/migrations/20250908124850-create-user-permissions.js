@@ -10,14 +10,32 @@ export default {
         primaryKey: true,
         allowNull: false,
       },
-      userId: {
-        type: DataTypes.STRING,
+      user_id: {
+        type: DataTypes.UUID,
+        references: {
+          model: "users",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
-      permissionId: {
-        type: DataTypes.STRING,
+      permission_id: {
+        type: DataTypes.UUID,
+        references: {
+          model: "permissions",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
-      featureId: {
-        type: DataTypes.STRING,
+      feature_id: {
+        type: DataTypes.UUID,
+        references: {
+          model: "features",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
       createdAt: {
         allowNull: false,
@@ -25,6 +43,9 @@ export default {
       },
       updatedAt: {
         allowNull: false,
+        type: DataTypes.DATE,
+      },
+      deletedAt: {
         type: DataTypes.DATE,
       },
     });

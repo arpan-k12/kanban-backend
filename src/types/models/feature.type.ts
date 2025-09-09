@@ -1,6 +1,6 @@
 export interface FeaturesAttributes {
   id: string;
-  featureName: string;
+  feature_name: string;
   createdAt: Date;
   updatedAt: Date;
   deletedAt?: Date | null;

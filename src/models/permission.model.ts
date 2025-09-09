@@ -16,6 +16,9 @@ import {
 import { UserPermissions } from "./userpermissions.model";
 import { Users } from "./users.model";
 import { Features } from "./features.model";
+import { UserPermissionsAttributes } from "types/models/userPermissions.type";
+import { UsersAttributes } from "types/models/users.types";
+import { FeaturesAttributes } from "types/models/feature.type";
 
 @DefaultScope(() => ({
   attributes: { exclude: [] },
@@ -61,11 +64,11 @@ export class Permission
   // Relations
 
   @HasMany(() => UserPermissions)
-  userPermissions!: UserPermissions[];
+  userPermissions!: UserPermissionsAttributes[];
 
   @BelongsToMany(() => Users, () => UserPermissions)
-  users!: Users[];
+  users!: UsersAttributes[];
 
   @BelongsToMany(() => Features, () => UserPermissions)
-  features!: Features[];
+  features!: FeaturesAttributes[];
 }

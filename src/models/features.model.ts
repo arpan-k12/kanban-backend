@@ -16,6 +16,9 @@ import {
 import { UserPermissions } from "./userpermissions.model";
 import { Users } from "./users.model";
 import { Permission } from "./permission.model";
+import { UserPermissionsAttributes } from "types/models/userPermissions.type";
+import { UsersAttributes } from "types/models/users.types";
+import { PermissionAttributes } from "types/models/permission.type";
 
 @DefaultScope(() => ({
   attributes: { exclude: [] },
@@ -38,7 +41,7 @@ export class Features
 
   @AllowNull(false)
   @Column(DataType.STRING)
-  featureName!: string;
+  feature_name!: string;
 
   @Column({
     field: "createdAt",
@@ -61,11 +64,11 @@ export class Features
   // Relations
 
   @HasMany(() => UserPermissions)
-  userPermissions!: UserPermissions[];
+  userPermissions!: UserPermissionsAttributes[];
 
   @BelongsToMany(() => Users, () => UserPermissions)
-  users!: Users[];
+  users!: UsersAttributes[];
 
   @BelongsToMany(() => Permission, () => UserPermissions)
-  permissions!: Permission[];
+  permissions!: PermissionAttributes[];
 }

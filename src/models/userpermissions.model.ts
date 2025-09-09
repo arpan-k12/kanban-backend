@@ -15,6 +15,9 @@ import {
   UserPermissionsAttributes,
   UserPermissionsCreateAttributes,
 } from "types/models/userPermissions.type";
+import { UsersAttributes } from "types/models/users.types";
+import { PermissionAttributes } from "types/models/permission.type";
+import { FeaturesAttributes } from "types/models/feature.type";
 
 @Table({
   tableName: "userPermissions",
@@ -73,11 +76,11 @@ export class UserPermissions
 
   // Relations
   @BelongsTo(() => Users)
-  user!: Users;
+  user!: UsersAttributes;
 
   @BelongsTo(() => Permission)
-  permission!: Permission;
+  permission!: PermissionAttributes;
 
   @BelongsTo(() => Features)
-  feature!: Features;
+  feature!: FeaturesAttributes;
 }

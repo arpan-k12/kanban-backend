@@ -14,7 +14,13 @@ module.exports = {
       },
       {
         id: uuidv4(),
-        name: "can_update",
+        name: "can_edit",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: uuidv4(),
+        name: "can_view",
         createdAt: new Date(),
         updatedAt: new Date(),
       },

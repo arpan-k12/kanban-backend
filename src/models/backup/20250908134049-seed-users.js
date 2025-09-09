@@ -5,8 +5,8 @@ const { v4: uuidv4 } = require("uuid");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    const hashedPassword = await bcrypt.hashSync("test123", 10);
+  async up(queryInterface) {
+    const hashedPassword = await bcrypt.hashSync("test@123", 10);
 
     await queryInterface.bulkInsert("users", [
       {
@@ -18,19 +18,10 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      {
-        id: uuidv4(),
-        role: "1",
-        user_name: "jone",
-        email: "jone@gmail.com",
-        password: hashedPassword,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
     ]);
   },
 
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     await queryInterface.bulkDelete("users", null, {});
   },
 };

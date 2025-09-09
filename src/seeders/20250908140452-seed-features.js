@@ -8,13 +8,13 @@ module.exports = {
     await queryInterface.bulkInsert("features", [
       {
         id: uuidv4(),
-        featureName: "card",
+        feature_name: "card",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         id: uuidv4(),
-        featureName: "inquiry",
+        feature_name: "inquiry",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
