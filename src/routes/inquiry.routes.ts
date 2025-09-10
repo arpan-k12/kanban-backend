@@ -1,6 +1,7 @@
 import { InquiryController } from "controllers/inquiry.controller";
 import { Router, Request, Response, NextFunction } from "express";
 import { authentication } from "middlewares/authentication";
+import { checkPermission } from "middlewares/checkPermission";
 
 export class InquiryRouter {
   public router: Router;
@@ -13,36 +14,30 @@ export class InquiryRouter {
   private initializeRoutes() {
     this.router.post(
       "/",
-      authentication,
+      checkPermission("card", "can_create"),
       (req: Request, res: Response, next: NextFunction) => {
         InquiryController.create(req, res, next);
       }
     );
     this.router.patch(
       "/:id",
-      authentication,
+      checkPermission("inquiry", "can_edit"),
       (req: Request, res: Response, next: NextFunction) => {
         InquiryController.update(req, res, next);
       }
     );
     this.router.patch(
       "/:id",
-      authentication,
       (req: Request, res: Response, next: NextFunction) => {
         InquiryController.delete(req, res, next);
       }
     );
 
-    this.router.get(
-      "/",
-      authentication,
-      (req: Request, res: Response, next: NextFunction) => {
-        InquiryController.getAllInquiry(req, res, next);
-      }
-    );
+    this.router.get("/", (req: Request, res: Response, next: NextFunction) => {
+      InquiryController.getAllInquiry(req, res, next);
+    });
     this.router.get(
       "/:id",
-      authentication,
       (req: Request, res: Response, next: NextFunction) => {
         InquiryController.getInquiryById(req, res, next);
       }

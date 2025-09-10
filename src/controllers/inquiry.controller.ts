@@ -21,7 +21,7 @@ export class InquiryController {
         return next(new AppError("all fields are required", 400));
       }
       if (!id) {
-        return next(new AppError("Unauthorized: No user id found", 401));
+        return next(new AppError("Unauthorized: No user id found", 403));
       }
 
       const userOrg = await userOrganizationRepository.checkUserInOrganization(
@@ -33,7 +33,7 @@ export class InquiryController {
         return next(
           new AppError(
             "User does not belong to this organization. Access denied.",
-            401
+            403
           )
         );
       }

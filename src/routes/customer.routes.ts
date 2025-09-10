@@ -11,37 +11,26 @@ export class CustomerRouter {
   }
 
   private initializeRoutes() {
-    this.router.post(
-      "/",
-      authentication,
-      (req: Request, res: Response, next: NextFunction) => {
-        CustomerController.create(req, res, next);
-      }
-    );
+    this.router.post("/", (req: Request, res: Response, next: NextFunction) => {
+      CustomerController.create(req, res, next);
+    });
     this.router.patch(
       "/:id",
-      authentication,
       (req: Request, res: Response, next: NextFunction) => {
         CustomerController.update(req, res, next);
       }
     );
     this.router.delete(
       "/:id",
-      authentication,
       (req: Request, res: Response, next: NextFunction) => {
         CustomerController.delete(req, res, next);
       }
     );
-    this.router.get(
-      "/",
-      authentication,
-      (req: Request, res: Response, next: NextFunction) => {
-        CustomerController.getAllCustomer(req, res, next);
-      }
-    );
+    this.router.get("/", (req: Request, res: Response, next: NextFunction) => {
+      CustomerController.getAllCustomer(req, res, next);
+    });
     this.router.get(
       "/:id",
-      authentication,
       (req: Request, res: Response, next: NextFunction) => {
         CustomerController.getCustomerById(req, res, next);
       }

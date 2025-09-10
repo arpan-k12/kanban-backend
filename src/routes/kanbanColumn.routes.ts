@@ -11,27 +11,18 @@ export class KanbanColumnRouter {
   }
 
   private initializeRoutes() {
-    this.router.post(
-      "/",
-      authentication,
-      (req: Request, res: Response, next: NextFunction) => {
-        KanbanColumnController.create(req, res, next);
-      }
-    );
+    this.router.post("/", (req: Request, res: Response, next: NextFunction) => {
+      KanbanColumnController.create(req, res, next);
+    });
     this.router.patch(
       "/:id",
-      authentication,
       (req: Request, res: Response, next: NextFunction) => {
         KanbanColumnController.update(req, res, next);
       }
     );
-    this.router.get(
-      "/",
-      authentication,
-      (req: Request, res: Response, next: NextFunction) => {
-        KanbanColumnController.getAllColumn(req, res, next);
-      }
-    );
+    this.router.get("/", (req: Request, res: Response, next: NextFunction) => {
+      KanbanColumnController.getAllColumn(req, res, next);
+    });
   }
 }
 

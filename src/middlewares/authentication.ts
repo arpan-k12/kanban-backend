@@ -3,10 +3,10 @@ import { verifyJwtToken } from "helper/jwtToken";
 import { UserRepository } from "repositories/userRepository";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import AppError from "utils/appError";
-import { Users } from "models/users.model";
+import { UsersAttributes } from "types/models/users.types";
 
 export interface AuthenticatedRequest extends Request {
-  user?: Users;
+  user?: UsersAttributes;
 }
 
 export async function authentication(
@@ -35,7 +35,7 @@ export async function authentication(
     const freshUser = await UserRepository.UserFindByPk(tokenDetail?.id);
 
     if (!freshUser) {
-      return next(new AppError("User no longer exists", 400));
+      return next(new AppError("User no longer exists", 401));
     }
 
     req.user = freshUser;

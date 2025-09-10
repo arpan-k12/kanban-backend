@@ -93,16 +93,13 @@ export class CardRepository {
       order: [["card_position", "ASC"]],
     });
 
-    // Remove the card from the array
     const movingCard = cards.find((card) => card.id === card_id);
-    if (!movingCard) return; // Add this check to avoid undefined error
+    if (!movingCard) return;
 
     const filtered = cards.filter((card) => card.id !== card_id);
 
-    // Insert at new position
     filtered.splice(newPos - 1, 0, movingCard);
 
-    // Update positions
     for (let i = 0; i < filtered.length; i++) {
       await filtered[i].update({ card_position: i + 1 });
     }
@@ -124,6 +121,7 @@ export class CardRepository {
       }
     }
   }
+
   static async insertCardToColumn(
     card_id: string,
     column_id: string,
@@ -133,7 +131,6 @@ export class CardRepository {
       where: { column_id },
       order: [["card_position", "ASC"]],
     });
-    // Shift cards at or after the new position
     for (let i = cards.length - 1; i >= card_position - 1; i--) {
       await cards[i].update({ card_position: cards[i].card_position + 1 });
     }
@@ -148,7 +145,6 @@ export class CardRepository {
     sort?: string,
     organizationId?: string
   ): Promise<Cards[]> {
-    // Fetch all cards with relations
     const cards = await Cards.findAll({
       where: { assigned_to: userId, organization_id: organizationId },
       include: [
@@ -169,15 +165,12 @@ export class CardRepository {
       const direction =
         directionRaw && directionRaw.toLowerCase() === "desc" ? "DESC" : "ASC";
 
-      // Get mapping (from earlier map)
       const mapping = sortFieldMap[rawKey];
 
       if (mapping) {
-        // Separate column cards vs others
         const targetCards = cards.filter((c) => c.column_id === columnId);
         const otherCards = cards.filter((c) => c.column_id !== columnId);
 
-        // Sort only target column
         targetCards.sort((a: any, b: any) => {
           let aVal, bVal;
 
@@ -197,62 +190,10 @@ export class CardRepository {
           return 0;
         });
 
-        // Merge back and return
         return [...otherCards, ...targetCards];
       }
     }
 
     return cards;
   }
-  // static async getAllCardsWithColumnSort(
-  //   columnId: string,
-  //   sort?: string
-  // ): Promise<Cards[]> {
-  //   let order: any[] = [["card_position", "ASC"]]; // default
-
-  //   if (sort) {
-  //     const [rawKey, directionRaw] = sort.split(":");
-  //     const direction =
-  //       directionRaw && directionRaw.toLowerCase() === "desc" ? "DESC" : "ASC";
-
-  //     const mapping = sortFieldMap[rawKey];
-
-  //     if (mapping) {
-  //       if (mapping.assoc) {
-  //         order = [
-  //           [
-  //             { model: this.getModelByAlias(mapping.assoc), as: mapping.assoc },
-  //             mapping.field,
-  //             direction,
-  //           ],
-  //         ];
-  //       } else {
-  //         order = [[mapping.field, direction]];
-  //       }
-  //     }
-  //   }
-
-  //   return Cards.findAll({
-  //     where: { column_id: columnId },
-  //     include: [
-  //       { model: KanbanColumn, as: "column" },
-  //       { model: Inquiry, as: "inquiry" },
-  //       { model: Customers, as: "customer" },
-  //       { model: Quote, as: "quote" },
-  //       { model: Decision, as: "decision" },
-  //     ],
-  //     order,
-  //   });
-  // }
-
-  // private static getModelByAlias(alias: string) {
-  //   const map: Record<string, any> = {
-  //     inquiry: Inquiry,
-  //     customer: Customers,
-  //     column: KanbanColumn,
-  //     quote: Quote,
-  //     decision: Decision,
-  //   };
-  //   return map[alias];
-  // }
 }

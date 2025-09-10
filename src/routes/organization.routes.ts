@@ -14,7 +14,6 @@ export class OrganizationRouter {
   private initializeRoutes() {
     this.router.post(
       "/",
-      authentication,
       AuthMiddleware.restrictTo("0"),
       (req: Request, res: Response, next: NextFunction) => {
         OrganizationController.create(req, res, next);
@@ -22,7 +21,6 @@ export class OrganizationRouter {
     );
     this.router.get(
       "/",
-      authentication,
       // AuthMiddleware.restrictTo("0"),
       (req: Request, res: Response, next: NextFunction) => {
         OrganizationController.get(req, res, next);
@@ -30,7 +28,6 @@ export class OrganizationRouter {
     );
     this.router.patch(
       "/:id",
-      authentication,
       AuthMiddleware.restrictTo("0"),
       (req: Request, res: Response, next: NextFunction) => {
         OrganizationController.update(req, res, next);
@@ -39,7 +36,6 @@ export class OrganizationRouter {
 
     this.router.delete(
       "/:id",
-      authentication,
       AuthMiddleware.restrictTo("0"),
       (req: Request, res: Response, next: NextFunction) => {
         OrganizationController.delete(req, res, next);
@@ -48,7 +44,6 @@ export class OrganizationRouter {
 
     this.router.get(
       "/:id",
-      authentication,
       AuthMiddleware.restrictTo("0"),
       (req: Request, res: Response, next: NextFunction) => {
         OrganizationController.getOrgById(req, res, next);

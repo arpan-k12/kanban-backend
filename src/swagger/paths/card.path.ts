@@ -18,7 +18,7 @@ export const cardPaths = {
             },
           },
         },
-        401: { description: "Unauthorized: No user id found" },
+        403: { description: "Unauthorized: No user id found" },
         404: { description: "No cards found" },
         500: { description: "Server error" },
       },

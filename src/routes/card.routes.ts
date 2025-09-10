@@ -1,6 +1,7 @@
 import { CardController } from "controllers/card.controller";
 import { Router, Request, Response, NextFunction } from "express";
 import { authentication } from "middlewares/authentication";
+import { checkPermission } from "middlewares/checkPermission";
 
 export class CardRouter {
   public router: Router;
@@ -20,25 +21,20 @@ export class CardRouter {
     // );
     this.router.patch(
       "/:id",
-      authentication,
       (req: Request, res: Response, next: NextFunction) => {
         CardController.updateCardPosition(req, res, next);
       }
     );
     this.router.patch(
       "/summary/:id",
-      authentication,
+      checkPermission("discussion", "can_create"),
       (req: Request, res: Response, next: NextFunction) => {
         CardController.addUpdateSummary(req, res, next);
       }
     );
-    this.router.get(
-      "/",
-      authentication,
-      (req: Request, res: Response, next: NextFunction) => {
-        CardController.getAllCard(req, res, next);
-      }
-    );
+    this.router.get("/", (req: Request, res: Response, next: NextFunction) => {
+      CardController.getAllCard(req, res, next);
+    });
   }
 }
 

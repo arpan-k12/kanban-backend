@@ -14,10 +14,23 @@ export class UsersRouter {
   private initializeRoutes() {
     this.router.get(
       "/",
-      authentication,
       AuthMiddleware.restrictTo("0"),
       (req: Request, res: Response, next: NextFunction) => {
         UserController.getAllUsers(req, res, next);
+      }
+    );
+    this.router.get(
+      "/:id/permission",
+      AuthMiddleware.restrictTo("0"),
+      (req: Request, res: Response, next: NextFunction) => {
+        UserController.getUserPermissions(req, res, next);
+      }
+    );
+    this.router.patch(
+      "/:id/permission",
+      AuthMiddleware.restrictTo("0"),
+      (req: Request, res: Response, next: NextFunction) => {
+        UserController.updateUserPermissions(req, res, next);
       }
     );
   }

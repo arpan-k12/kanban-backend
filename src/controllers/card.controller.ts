@@ -96,7 +96,7 @@ export class CardController {
       const { columnId, sort, organizationId } = req.query;
 
       if (!id) {
-        return next(new AppError("Unauthorized: No user id found", 401));
+        return next(new AppError("Unauthorized: No user id found", 403));
       }
 
       let cards;

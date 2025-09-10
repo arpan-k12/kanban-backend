@@ -18,6 +18,24 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        id: uuidv4(),
+        feature_name: "discussion",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: uuidv4(),
+        feature_name: "quote",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: uuidv4(),
+        feature_name: "decision",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ]);
   },
 

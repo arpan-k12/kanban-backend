@@ -12,6 +12,11 @@ export class CustomerController {
         return next(new AppError("Name, email, and phone are required", 400));
       }
 
+      const existingUser = await CustomerRepository.findByEmail(c_email);
+      if (existingUser) {
+        return next(new AppError("Email already registered", 400));
+      }
+
       const data = { c_name, c_email };
 
       const newCustomer = await CustomerRepository.createCustomer(data);

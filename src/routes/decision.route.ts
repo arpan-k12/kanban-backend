@@ -1,6 +1,7 @@
 import { DecisionController } from "controllers/decision.controller";
 import { Router, Request, Response, NextFunction } from "express";
 import { authentication } from "middlewares/authentication";
+import { checkPermission } from "middlewares/checkPermission";
 
 export class DecisionRouter {
   public router: Router;
@@ -13,14 +14,14 @@ export class DecisionRouter {
   private initializeRoutes() {
     this.router.post(
       "/",
-      authentication,
+      checkPermission("decision", "can_create"),
       (req: Request, res: Response, next: NextFunction) => {
         DecisionController.create(req, res, next);
       }
     );
     this.router.patch(
       "/:id",
-      authentication,
+      checkPermission("decision", "can_edit"),
       (req: Request, res: Response, next: NextFunction) => {
         DecisionController.update(req, res, next);
       }

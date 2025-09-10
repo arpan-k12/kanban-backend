@@ -14,7 +14,6 @@ export class userOrganizationRouter {
   private initializeRoutes() {
     this.router.put(
       "/assign-org",
-      authentication,
       AuthMiddleware.restrictTo("0"),
       (req: Request, res: Response, next: NextFunction) => {
         userOrganizationController.assignOrganization(req, res, next);
@@ -22,7 +21,6 @@ export class userOrganizationRouter {
     );
     this.router.get(
       "/",
-      authentication,
       AuthMiddleware.restrictTo("0"),
       (req: Request, res: Response, next: NextFunction) => {
         userOrganizationController.getUserOrganization(req, res, next);
@@ -30,7 +28,6 @@ export class userOrganizationRouter {
     );
     this.router.get(
       "/:id",
-      authentication,
       // AuthMiddleware.restrictTo("0"),
       (req: Request, res: Response, next: NextFunction) => {
         userOrganizationController.getUserOrganizationsById(req, res, next);
