@@ -12,13 +12,13 @@ import {
 import {
   FeaturesAttributes,
   FeaturesCreateAttributes,
-} from "types/models/feature.type";
+} from "types/models/feature.types";
 import { UserPermissions } from "./userpermissions.model";
 import { Users } from "./users.model";
 import { Permission } from "./permission.model";
-import { UserPermissionsAttributes } from "types/models/userPermissions.type";
+import { UserPermissionsAttributes } from "types/models/userPermissions.types";
 import { UsersAttributes } from "types/models/users.types";
-import { PermissionAttributes } from "types/models/permission.type";
+import { PermissionAttributes } from "types/models/permission.types";
 
 @DefaultScope(() => ({
   attributes: { exclude: [] },

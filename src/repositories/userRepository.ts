@@ -5,6 +5,7 @@ import { Permission } from "models/permission.model";
 import { Features } from "models/features.model";
 import { UserPermissions } from "models/userpermissions.model";
 import AppError from "utils/appError";
+import { Otp } from "models/otp.model";
 const { Op } = require("sequelize");
 
 const { v4: uuidv4 } = require("uuid");
@@ -26,6 +27,10 @@ export class UserRepository {
 
   static async UserFindByPk(id: string | any): Promise<Users | null> {
     return Users.findByPk(id);
+  }
+
+  static async saveOtp(user_id: string, otp: string, expiry: Date) {
+    return Otp.create({ user_id, otp, expiry });
   }
 
   // static async findAll(): Promise<Users[]> {

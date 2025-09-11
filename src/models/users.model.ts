@@ -24,11 +24,11 @@ import { Organization } from "./organization.model";
 import { UsersOrganization } from "./usersOrganization.model";
 import { OrganizationAttributes } from "types/models/organization.types";
 import { UserPermissions } from "./userpermissions.model";
-import { UserPermissionsAttributes } from "types/models/userPermissions.type";
+import { UserPermissionsAttributes } from "types/models/userPermissions.types";
 import { Permission } from "./permission.model";
-import { PermissionAttributes } from "types/models/permission.type";
+import { PermissionAttributes } from "types/models/permission.types";
 import { Features } from "./features.model";
-import { FeaturesAttributes } from "types/models/feature.type";
+import { FeaturesAttributes } from "types/models/feature.types";
 
 @DefaultScope(() => ({
   attributes: { exclude: ["password"] },

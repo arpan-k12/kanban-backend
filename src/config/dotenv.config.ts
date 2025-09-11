@@ -15,3 +15,7 @@ export const DB_PORT = parseInt(process.env.DB_PORT ?? "5432", 10);
 
 export const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY as string;
 export const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN as string;
+export const SMTP_HOST = process.env.SMTP_HOST as string;
+export const SMTP_PORT = process.env.SMTP_PORT as string;
+export const SMTP_USER = process.env.SMTP_USER as string;
+export const SMTP_PASS = process.env.SMTP_PASS as string;

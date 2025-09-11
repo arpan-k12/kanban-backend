@@ -14,10 +14,10 @@ import { Features } from "./features.model";
 import {
   UserPermissionsAttributes,
   UserPermissionsCreateAttributes,
-} from "types/models/userPermissions.type";
+} from "types/models/userPermissions.types";
 import { UsersAttributes } from "types/models/users.types";
-import { PermissionAttributes } from "types/models/permission.type";
-import { FeaturesAttributes } from "types/models/feature.type";
+import { PermissionAttributes } from "types/models/permission.types";
+import { FeaturesAttributes } from "types/models/feature.types";
 
 @Table({
   tableName: "userPermissions",

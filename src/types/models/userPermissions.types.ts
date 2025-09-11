@@ -1,5 +1,5 @@
-import { FeaturesAttributes } from "./feature.type";
-import { PermissionAttributes } from "./permission.type";
+import { FeaturesAttributes } from "./feature.types";
+import { PermissionAttributes } from "./permission.types";
 import { UsersAttributes } from "./users.types";
 
 export interface UserPermissionsAttributes {

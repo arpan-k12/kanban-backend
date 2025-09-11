@@ -15,7 +15,7 @@ import { Users } from "./users.model";
 import {
   UsersOrganizationAttributes,
   UsersOrganizationCreateAttributes,
-} from "types/models/user_organization.type";
+} from "types/models/user_organization.types";
 import { Organization } from "./organization.model";
 
 @DefaultScope(() => ({
