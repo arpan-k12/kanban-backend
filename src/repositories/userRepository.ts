@@ -29,10 +29,6 @@ export class UserRepository {
     return Users.findByPk(id);
   }
 
-  static async saveOtp(user_id: string, otp: string, expiry: Date) {
-    return Otp.create({ user_id, otp, expiry });
-  }
-
   // static async findAll(): Promise<Users[]> {
   //   return Users.findAll();
   // }

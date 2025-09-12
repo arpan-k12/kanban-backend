@@ -22,6 +22,18 @@ export class AuthRouter {
         AuthController.signin(req, res, next);
       }
     );
+    this.router.post(
+      "/verify-signin-otp",
+      (req: Request, res: Response, next: NextFunction) => {
+        AuthController.verifySigninOtp(req, res, next);
+      }
+    );
+    this.router.post(
+      "/verify-signup-otp",
+      (req: Request, res: Response, next: NextFunction) => {
+        AuthController.verifySignupOtp(req, res, next);
+      }
+    );
   }
 }
 

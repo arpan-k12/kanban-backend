@@ -1,39 +1,3 @@
-// import {
-//   SMTP_HOST,
-//   SMTP_PASS,
-//   SMTP_PORT,
-//   SMTP_USER,
-// } from "config/dotenv.config";
-// import nodemailer from "nodemailer";
-
-// const transporter = nodemailer.createTransport({
-//   host: SMTP_HOST,
-//   port: Number(SMTP_PORT) || 587,
-//   secure: false,
-//   auth: {
-//     user: SMTP_USER,
-//     pass: SMTP_PASS,
-//   },
-// });
-
-// export async function sendMail(
-//   to: string,
-//   subject: string,
-//   text: string,
-//   html?: string
-// ) {
-//   const info = await transporter.sendMail({
-//     from: `"MyApp" <${SMTP_USER}>`,
-//     to,
-//     subject,
-//     text,
-//     html: html || `<p>${text}</p>`,
-//   });
-
-//   console.log("✅ Email sent: %s", info.messageId);
-//   return info;
-// }
-
 import {
   SMTP_HOST,
   SMTP_PASS,
@@ -44,13 +8,11 @@ import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
   host: SMTP_HOST,
-  port: Number(SMTP_PORT) || 587,
+  port: Number(SMTP_PORT) || 2525,
+  secure: false,
   auth: {
     user: SMTP_USER,
     pass: SMTP_PASS,
-  },
-  tls: {
-    rejectUnauthorized: false,
   },
 });
 
@@ -63,7 +25,7 @@ export async function sendMail(
 ) {
   try {
     const info = await transporter.sendMail({
-      from: SMTP_USER,
+      from: "arpan.kumbhani@esparkbizmail.com",
       to,
       subject,
       text,
