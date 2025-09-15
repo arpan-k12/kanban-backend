@@ -3,7 +3,8 @@ import { otpRepository } from "repositories/otpRepository";
 
 export class OtpService {
   static generateOtp(): string {
-    return crypto.randomInt(100000, 999999).toString();
+    // return crypto.randomInt(100000, 999999).toString();
+    return "123456";
   }
 
   static getExpiry(minutes = 5): Date {

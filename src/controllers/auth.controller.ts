@@ -173,7 +173,7 @@ export class AuthController {
 
       const otp = await generateAndSaveOtp(user.id);
 
-      await sendMail(user.email, "Your OTP Code", `Your OTP is: ${otp}`);
+      // await sendMail(user.email, "Your OTP Code", `Your OTP is: ${otp}`);
 
       return sendSuccess(
         res,

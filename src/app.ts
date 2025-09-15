@@ -7,6 +7,7 @@ import { sequelize } from "./config/sequelize";
 import globalErrorHandler from "./middlewares/errorHandler";
 import routes from "routes";
 import swagger from "swagger";
+import path from "path";
 
 const app = express();
 
@@ -35,6 +36,8 @@ app.use(
 );
 
 app.use(express.json());
+
+app.use("/api/productImg", express.static(path.join(__dirname, "productImg")));
 
 app.use("/", routes);
 

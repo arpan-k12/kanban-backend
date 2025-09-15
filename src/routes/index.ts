@@ -9,6 +9,8 @@ import quoteRouter from "./quote.routes";
 import organizationRouter from "./organization.routes";
 import usersRouter from "./users.routes";
 import userOrganizationRouter from "./userOrganization.routes";
+import productRouter from "./product.routes";
+import categoryRouter from "./categories.routes";
 import { authentication } from "middlewares/authentication";
 
 export class IndexRouter {
@@ -34,6 +36,8 @@ export class IndexRouter {
       authentication,
       userOrganizationRouter
     );
+    this.router.use("/api/category", authentication, categoryRouter);
+    this.router.use("/api/product", authentication, productRouter);
   }
 }
 

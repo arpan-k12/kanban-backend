@@ -19,6 +19,8 @@ import { Permission } from "models/permission.model";
 import { Features } from "models/features.model";
 import { UserPermissions } from "models/userpermissions.model";
 import { Otp } from "models/otp.model";
+import { Categories } from "models/categories.model";
+import { Product } from "models/product.model";
 
 const sequelize = new Sequelize({
   dialect: "postgres",
@@ -42,6 +44,8 @@ const sequelize = new Sequelize({
     Features,
     UserPermissions,
     Otp,
+    Categories,
+    Product,
   ],
   define: {
     underscored: true,
