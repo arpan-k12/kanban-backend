@@ -36,7 +36,9 @@ export class ProductController {
 
   static async get(req: Request, res: Response, next: NextFunction) {
     try {
-      const products = await ProductRepository.getAllProduct();
+      const { search } = req.query;
+
+      const products = await ProductRepository.getAllProduct(search as any);
 
       if (!products) {
         return next(new AppError("No Product mappings found", 400));

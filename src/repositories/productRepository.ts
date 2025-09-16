@@ -1,7 +1,7 @@
 import { Categories } from "models/categories.model";
 import { Product } from "models/product.model";
 import { ProductCreateAttributes } from "types/models/product.types";
-import { Transaction } from "sequelize";
+import { Op } from "sequelize";
 
 export class ProductRepository {
   static async createProduct(
@@ -10,8 +10,20 @@ export class ProductRepository {
     return Product.create(data);
   }
 
-  static async getAllProduct(): Promise<Product[]> {
+  static async getAllProduct(search?: any): Promise<Product[]> {
+    const where: any = {};
+
+    if (search) {
+      const orConditions: any[] = [{ name: { [Op.iLike]: `%${search}%` } }];
+
+      if (!isNaN(Number(search))) {
+        orConditions.push({ price: Number(search) });
+      }
+
+      where[Op.or] = orConditions;
+    }
     return await Product.findAll({
+      where,
       include: [
         {
           model: Categories,
