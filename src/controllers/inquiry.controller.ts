@@ -15,9 +15,25 @@ export class InquiryController {
     next: NextFunction
   ) {
     try {
-      const { organization_id, customer_id, commodity, budget } = req.body;
+      const {
+        organization_id,
+        customer_id,
+        product_id,
+        quantity,
+        price,
+        budget,
+        identification_code,
+      } = req.body;
       const id = req.user?.id;
-      if (!organization_id || !customer_id || !commodity || !budget) {
+      if (
+        !organization_id ||
+        !customer_id ||
+        !product_id ||
+        !quantity ||
+        !price ||
+        !budget ||
+        !identification_code
+      ) {
         return next(new AppError("all fields are required", 400));
       }
       if (!id) {
@@ -43,7 +59,9 @@ export class InquiryController {
       }
       const newInquiry = await InquiryRepository.createInquiry({
         customer_id,
-        commodity,
+        product_id,
+        quantity,
+        price,
         budget,
       });
 
@@ -104,11 +122,9 @@ export class InquiryController {
   ) {
     try {
       const { id } = req.params;
-      const { customer_id, commodity, budget } = req.body;
-      if (!customer_id || !commodity || !budget) {
-        return next(
-          new AppError("Customer ID, commodity, and budget are required", 400)
-        );
+      const { customer_id, product_id, budget } = req.body;
+      if (!customer_id || !product_id || !budget) {
+        return next(new AppError("all fields are required", 400));
       }
       const customer = await CustomerRepository.getCustomerById(customer_id);
       if (!customer) {
@@ -116,7 +132,7 @@ export class InquiryController {
       }
       const updatedInquiry = await InquiryRepository.updateInquiry(id, {
         customer_id,
-        commodity,
+        // commodity,
         budget,
       });
       if (!updatedInquiry) {

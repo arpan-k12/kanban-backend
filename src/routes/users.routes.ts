@@ -33,6 +33,13 @@ export class UsersRouter {
         UserController.updateUserPermissions(req, res, next);
       }
     );
+    // For App Route
+    this.router.get(
+      "/user-permission",
+      (req: Request, res: Response, next: NextFunction) => {
+        UserController.getUserPermissionsById(req, res, next);
+      }
+    );
   }
 }
 

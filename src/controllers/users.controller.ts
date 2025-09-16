@@ -71,4 +71,31 @@ export class UserController {
       next(error);
     }
   }
+
+  static async getUserPermissionsById(
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const id = req.user?.id;
+      if (!id) {
+        return next(new AppError("Unauthorized: No user id found", 403));
+      }
+      const user = await UserRepository.UserFindByPk(id);
+      if (!user) return next(new AppError("User not found", 404));
+
+      const { permissionsByFeature } =
+        await UserRepository.buildUserWithPermissions(user);
+
+      if (!permissionsByFeature) {
+        next(new AppError("User not have any permission", 404));
+      }
+      return sendSuccess(res, "User permissions fetched", {
+        permissions: { byFeature: permissionsByFeature },
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
 }

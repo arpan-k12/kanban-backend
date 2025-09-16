@@ -21,13 +21,32 @@ export default {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
-      commodity: {
-        type: DataTypes.STRING,
+      product_id: {
+        type: DataTypes.UUID,
         allowNull: false,
+        references: {
+          model: "products",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
+      quantity: {
+        allowNull: false,
+        type: DataTypes.DECIMAL,
+      },
+      price: {
+        allowNull: false,
+        type: DataTypes.DECIMAL,
       },
       budget: {
         type: DataTypes.DECIMAL,
         allowNull: false,
+      },
+      identification_code: {
+        type: DataTypes.STRING(6),
+        allowNull: false,
+        unique: true,
       },
       createdAt: {
         allowNull: false,

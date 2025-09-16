@@ -14,6 +14,7 @@ import {
   InquiryCreateAttributes,
 } from "../types/models/inquiry.types";
 import { Customers } from "./customer.model";
+import { Product } from "./product.model";
 
 @DefaultScope(() => ({
   attributes: { exclude: [] },
@@ -44,13 +45,35 @@ export class Inquiry
   @BelongsTo(() => Customers)
   customer!: Customers;
 
+  @ForeignKey(() => Product)
   @AllowNull(false)
-  @Column(DataType.STRING)
-  commodity!: string;
+  @Column({
+    type: DataType.UUID,
+  })
+  product_id!: string;
+
+  @BelongsTo(() => Product)
+  Product!: Product;
+
+  // @AllowNull(false)
+  // @Column(DataType.STRING)
+  // commodity!: string;
+
+  @AllowNull(false)
+  @Column(DataType.DECIMAL)
+  quantity!: number;
+
+  @AllowNull(false)
+  @Column(DataType.DECIMAL)
+  price!: number;
 
   @AllowNull(false)
   @Column(DataType.DECIMAL)
   budget!: number;
+
+  @AllowNull(false)
+  @Column(DataType.STRING(6))
+  identification_code!: string;
 
   @Column({
     field: "createdAt",
