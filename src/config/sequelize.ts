@@ -21,6 +21,7 @@ import { UserPermissions } from "models/userpermissions.model";
 import { Otp } from "models/otp.model";
 import { Categories } from "models/categories.model";
 import { Product } from "models/product.model";
+import { InquiryItem } from "models/inquiryitem.model";
 
 const sequelize = new Sequelize({
   dialect: "postgres",
@@ -37,6 +38,7 @@ const sequelize = new Sequelize({
     Categories,
     Product,
     Inquiry,
+    InquiryItem,
     KanbanColumn,
     Quote,
     Decision,

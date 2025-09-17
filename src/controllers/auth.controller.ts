@@ -62,7 +62,7 @@ export class AuthController {
         role,
       });
 
-      await sendMail(email, "Verify your Signup", `Your OTP is: ${otp}`);
+      // await sendMail(email, "Verify your Signup", `Your OTP is: ${otp}`);
 
       return sendSuccess(
         res,

@@ -21,8 +21,8 @@ module.exports = {
       {
         id: uuidv4(),
         role: "1",
-        user_name: "jone",
-        email: "jone@gmail.com",
+        user_name: "doi",
+        email: "doi@gmail.com",
         password: hashedPassword,
         createdAt: new Date(),
         updatedAt: new Date(),

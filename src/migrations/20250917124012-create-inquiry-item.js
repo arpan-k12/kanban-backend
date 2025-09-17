@@ -1,34 +1,42 @@
-"use strict";
 import { DataTypes } from "sequelize";
 
 /** @type {import('sequelize-cli').Migration} */
 export default {
   async up(queryInterface) {
-    await queryInterface.createTable("inquiries", {
+    await queryInterface.createTable("InquiryItems", {
       id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
         allowNull: false,
       },
-      customer_id: {
+      inquiry_id: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-          model: "customers",
+          model: "inquiries",
           key: "id",
         },
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
-      budget: {
-        type: DataTypes.DECIMAL,
+      product_id: {
+        type: DataTypes.UUID,
         allowNull: false,
+        references: {
+          model: "products",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
-      identification_code: {
-        type: DataTypes.STRING(6),
+      quantity: {
         allowNull: false,
-        unique: true,
+        type: DataTypes.DECIMAL,
+      },
+      price: {
+        allowNull: false,
+        type: DataTypes.DECIMAL,
       },
       createdAt: {
         allowNull: false,
@@ -44,6 +52,6 @@ export default {
     });
   },
   async down(queryInterface) {
-    await queryInterface.dropTable("inquiries");
+    await queryInterface.dropTable("InquiryItems");
   },
 };

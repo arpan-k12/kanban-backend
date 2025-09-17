@@ -7,6 +7,7 @@ import {
   AllowNull,
   Model,
   BelongsTo,
+  HasMany,
 } from "sequelize-typescript";
 import { Users } from "./users.model";
 import { Permission } from "./permission.model";
@@ -21,6 +22,7 @@ import {
 } from "types/models/product.types";
 import { Categories } from "./categories.model";
 import { CategoriesAttributes } from "types/models/categories.types";
+import { InquiryItem } from "./inquiryitem.model";
 
 @Table({
   tableName: "products",
@@ -82,4 +84,7 @@ export class Product
   // Relations
   @BelongsTo(() => Categories)
   categories!: CategoriesAttributes;
+
+  // @HasMany(() => InquiryItem, { foreignKey: "product_id" })
+  // inquiryItems!: InquiryItem[];
 }

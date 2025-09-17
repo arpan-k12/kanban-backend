@@ -8,6 +8,7 @@ import {
   DefaultScope,
   ForeignKey,
   BelongsTo,
+  HasMany,
 } from "sequelize-typescript";
 import {
   InquiryAttributes,
@@ -15,6 +16,7 @@ import {
 } from "../types/models/inquiry.types";
 import { Customers } from "./customer.model";
 import { Product } from "./product.model";
+import { InquiryItem } from "./inquiryitem.model";
 
 @DefaultScope(() => ({
   attributes: { exclude: [] },
@@ -45,27 +47,27 @@ export class Inquiry
   @BelongsTo(() => Customers)
   customer!: Customers;
 
-  @ForeignKey(() => Product)
-  @AllowNull(false)
-  @Column({
-    type: DataType.UUID,
-  })
-  product_id!: string;
+  // @ForeignKey(() => Product)
+  // @AllowNull(false)
+  // @Column({
+  //   type: DataType.UUID,
+  // })
+  // product_id!: string;
 
-  @BelongsTo(() => Product)
-  product!: Product;
+  // @BelongsTo(() => Product)
+  // product!: Product;
 
   // @AllowNull(false)
   // @Column(DataType.STRING)
   // commodity!: string;
 
-  @AllowNull(false)
-  @Column(DataType.DECIMAL)
-  quantity!: number;
+  // @AllowNull(false)
+  // @Column(DataType.DECIMAL)
+  // quantity!: number;
 
-  @AllowNull(false)
-  @Column(DataType.DECIMAL)
-  price!: number;
+  // @AllowNull(false)
+  // @Column(DataType.DECIMAL)
+  // price!: number;
 
   @AllowNull(false)
   @Column(DataType.DECIMAL)
@@ -92,4 +94,8 @@ export class Inquiry
     type: DataType.DATE,
   })
   deletedAt?: Date;
+
+  // Relations
+  @HasMany(() => InquiryItem)
+  items!: InquiryItem[];
 }

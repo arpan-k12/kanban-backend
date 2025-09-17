@@ -59,9 +59,9 @@ export class InquiryController {
       }
       const newInquiry = await InquiryRepository.createInquiry({
         customer_id,
-        product_id,
-        quantity,
-        price,
+        // product_id,
+        // quantity,
+        // price,
         budget,
         identification_code,
       });
@@ -200,3 +200,55 @@ export class InquiryController {
     }
   }
 }
+
+// // services/inquiry.service.ts
+// import { Inquiry } from "../models/inquiry.model";
+// import { InquiryItem } from "../models/inquiryItem.model";
+// import { sequelize } from "../config/sequelize"; // your sequelize instance
+
+// type CreateItem = { product_id: string; quantity: number; unit_price: number };
+
+// export async function createInquiryWithItems(
+//   customer_id: string,
+//   identification_code: string,
+//   budget: number,
+//   items: CreateItem[]
+// ) {
+//   return await sequelize.transaction(async (tx) => {
+//     const inquiry = await Inquiry.create(
+//       {
+//         customer_id,
+//         identification_code,
+//         budget,
+//       },
+//       { transaction: tx }
+//     );
+
+//     const itemsToInsert = items.map((it) => ({
+//       inquiry_id: inquiry.id,
+//       product_id: it.product_id,
+//       quantity: it.quantity,
+//       unit_price: it.unit_price,
+//       total_price: Number(it.quantity) * Number(it.unit_price),
+//     }));
+
+//     await InquiryItem.bulkCreate(itemsToInsert, { transaction: tx });
+
+//     // optionally reload with items
+//     await inquiry.reload({ include: [InquiryItem], transaction: tx });
+//     return inquiry;
+//   });
+// }
+
+// await sequelize.transaction(async (tx) => {
+//   const inquiry = await Inquiry.create(
+//     {
+//       customer_id,
+//       identification_code,
+//       budget,
+//       items: itemsToInsert, // property name == @HasMany field
+//     },
+//     { include: [InquiryItem], transaction: tx }
+//   );
+//   return inquiry;
+// });
