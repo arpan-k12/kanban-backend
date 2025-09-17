@@ -63,6 +63,7 @@ export class InquiryController {
         quantity,
         price,
         budget,
+        identification_code,
       });
 
       const column = await KanbanColumnRepository.getColumnByPosition(1);
@@ -180,6 +181,20 @@ export class InquiryController {
         return next(new AppError("Inquiry not found", 404));
       }
       return sendSuccess(res, "Inquiry fetched successfully", inquiry, 200);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async getIdentificationCode(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const code = await InquiryRepository.getUniqueIdentificationCode();
+
+      return sendSuccess(res, "code generated successfully", code, 200);
     } catch (err) {
       next(err);
     }

@@ -53,7 +53,7 @@ export class Inquiry
   product_id!: string;
 
   @BelongsTo(() => Product)
-  Product!: Product;
+  product!: Product;
 
   // @AllowNull(false)
   // @Column(DataType.STRING)

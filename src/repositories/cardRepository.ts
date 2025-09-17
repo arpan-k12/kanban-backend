@@ -4,6 +4,7 @@ import { Customers } from "models/customer.model";
 import { Decision } from "models/decision.model";
 import { Inquiry } from "models/inquiry.model";
 import { KanbanColumn } from "models/kanbanColumn.model";
+import { Product } from "models/product.model";
 import { Quote } from "models/quotes.model";
 import { CardCreateAttributes } from "types/models/cards.types";
 
@@ -149,7 +150,14 @@ export class CardRepository {
       where: { assigned_to: userId, organization_id: organizationId },
       include: [
         { model: KanbanColumn, as: "column" },
-        { model: Inquiry, as: "inquiry" },
+        // { model: Inquiry, as: "inquiry" },
+        {
+          model: Inquiry,
+          as: "inquiry",
+          include: [
+            { model: Product, as: "product", attributes: ["id", "name"] },
+          ],
+        },
         { model: Customers, as: "customer" },
         { model: Quote, as: "quote" },
         { model: Decision, as: "decision" },

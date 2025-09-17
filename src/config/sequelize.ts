@@ -34,6 +34,8 @@ const sequelize = new Sequelize({
     Organization,
     Users,
     Customers,
+    Categories,
+    Product,
     Inquiry,
     KanbanColumn,
     Quote,
@@ -44,8 +46,6 @@ const sequelize = new Sequelize({
     Features,
     UserPermissions,
     Otp,
-    Categories,
-    Product,
   ],
   define: {
     underscored: true,

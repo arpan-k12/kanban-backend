@@ -42,6 +42,12 @@ export class InquiryRouter {
         InquiryController.getInquiryById(req, res, next);
       }
     );
+    this.router.get(
+      "/code/generate",
+      (req: Request, res: Response, next: NextFunction) => {
+        InquiryController.getIdentificationCode(req, res, next);
+      }
+    );
   }
 }
 
