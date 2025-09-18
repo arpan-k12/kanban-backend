@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { AuthenticatedRequest } from "middlewares/authentication";
 import { CardRepository } from "repositories/cardRepository";
 import { CustomerRepository } from "repositories/customerRepository";
+import { InquiryItemRepository } from "repositories/InquiryItemRepository";
 import { InquiryRepository } from "repositories/inquiryRepository";
 import { KanbanColumnRepository } from "repositories/kanbanColumnRepository";
 import { userOrganizationRepository } from "repositories/userOrganizationRepository";
@@ -18,23 +19,25 @@ export class InquiryController {
       const {
         organization_id,
         customer_id,
-        product_id,
-        quantity,
-        price,
+        grand_total,
         budget,
         identification_code,
+        items,
       } = req.body;
+
       const id = req.user?.id;
+
       if (
         !organization_id ||
         !customer_id ||
-        !product_id ||
-        !quantity ||
-        !price ||
+        !grand_total ||
         !budget ||
-        !identification_code
+        !identification_code ||
+        !items ||
+        !Array.isArray(items) ||
+        items.length === 0
       ) {
-        return next(new AppError("all fields are required", 400));
+        return next(new AppError("All fields are required", 400));
       }
       if (!id) {
         return next(new AppError("Unauthorized: No user id found", 403));
@@ -59,12 +62,16 @@ export class InquiryController {
       }
       const newInquiry = await InquiryRepository.createInquiry({
         customer_id,
-        // product_id,
-        // quantity,
-        // price,
+        grand_total,
         budget,
         identification_code,
       });
+
+      if (!newInquiry) {
+        return next(new AppError("failed to create inquiry", 404));
+      }
+
+      await InquiryItemRepository.create(items, newInquiry.id);
 
       const column = await KanbanColumnRepository.getColumnByPosition(1);
       if (!column) {
@@ -79,7 +86,6 @@ export class InquiryController {
         customer_id: newInquiry?.customer_id,
         inquiry_id: newInquiry?.id,
         assigned_to: req?.user?.id,
-        summary: req.body.summary || "",
         card_position: 1,
       });
 
@@ -123,35 +129,38 @@ export class InquiryController {
   ) {
     try {
       const { id } = req.params;
-      const { customer_id, product_id, budget } = req.body;
-      if (!customer_id || !product_id || !budget) {
+      const { budget, grand_total, items } = req.body;
+      if (
+        !budget ||
+        !grand_total ||
+        !items ||
+        !Array.isArray(items) ||
+        items.length === 0
+      ) {
         return next(new AppError("all fields are required", 400));
       }
-      const customer = await CustomerRepository.getCustomerById(customer_id);
-      if (!customer) {
-        return next(new AppError("Customer not exits", 404));
-      }
-      const updatedInquiry = await InquiryRepository.updateInquiry(id, {
-        customer_id,
-        // commodity,
-        budget,
-      });
+
+      const updatedInquiry = await InquiryRepository.updateInquiryWithItems(
+        id,
+        { budget, grand_total },
+        items
+      );
+
       if (!updatedInquiry) {
         return next(new AppError("Inquiry not found or update failed", 404));
       }
 
-      const existingCard = await CardRepository.getCardByInquiryId(id);
+      // const existingCard = await CardRepository.getCardByInquiryId(id);
 
-      let updatedCard = null;
-      if (existingCard) {
-        updatedCard = await CardRepository.updateCard(existingCard.id, {
-          customer_id: updatedInquiry.customer_id,
-          inquiry_id: updatedInquiry.id,
-          assigned_to: req.user?.id,
-        });
-      } else {
-        return next(new AppError("Card not found for the inquiry", 404));
-      }
+      // let updatedCard = null;
+      // if (existingCard) {
+      //   updatedCard = await CardRepository.updateCard(existingCard.id, {
+      //     inquiry_id: updatedInquiry.id,
+      //     // assigned_to: req.user?.id,
+      //   });
+      // } else {
+      //   return next(new AppError("Card not found for the inquiry", 404));
+      // }
 
       return sendSuccess(
         res,
@@ -200,55 +209,3 @@ export class InquiryController {
     }
   }
 }
-
-// // services/inquiry.service.ts
-// import { Inquiry } from "../models/inquiry.model";
-// import { InquiryItem } from "../models/inquiryItem.model";
-// import { sequelize } from "../config/sequelize"; // your sequelize instance
-
-// type CreateItem = { product_id: string; quantity: number; unit_price: number };
-
-// export async function createInquiryWithItems(
-//   customer_id: string,
-//   identification_code: string,
-//   budget: number,
-//   items: CreateItem[]
-// ) {
-//   return await sequelize.transaction(async (tx) => {
-//     const inquiry = await Inquiry.create(
-//       {
-//         customer_id,
-//         identification_code,
-//         budget,
-//       },
-//       { transaction: tx }
-//     );
-
-//     const itemsToInsert = items.map((it) => ({
-//       inquiry_id: inquiry.id,
-//       product_id: it.product_id,
-//       quantity: it.quantity,
-//       unit_price: it.unit_price,
-//       total_price: Number(it.quantity) * Number(it.unit_price),
-//     }));
-
-//     await InquiryItem.bulkCreate(itemsToInsert, { transaction: tx });
-
-//     // optionally reload with items
-//     await inquiry.reload({ include: [InquiryItem], transaction: tx });
-//     return inquiry;
-//   });
-// }
-
-// await sequelize.transaction(async (tx) => {
-//   const inquiry = await Inquiry.create(
-//     {
-//       customer_id,
-//       identification_code,
-//       budget,
-//       items: itemsToInsert, // property name == @HasMany field
-//     },
-//     { include: [InquiryItem], transaction: tx }
-//   );
-//   return inquiry;
-// });

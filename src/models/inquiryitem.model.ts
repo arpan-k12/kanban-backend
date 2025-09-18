@@ -54,7 +54,7 @@ export class InquiryItem
 
   @AllowNull(false)
   @Column(DataType.DECIMAL)
-  price!: number;
+  total_price!: number;
 
   @Column({ field: "createdAt", type: DataType.DATE })
   createdAt!: Date;

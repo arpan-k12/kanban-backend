@@ -3,6 +3,7 @@ import { Cards } from "models/cards.model";
 import { Customers } from "models/customer.model";
 import { Decision } from "models/decision.model";
 import { Inquiry } from "models/inquiry.model";
+import { InquiryItem } from "models/inquiryitem.model";
 import { KanbanColumn } from "models/kanbanColumn.model";
 import { Product } from "models/product.model";
 import { Quote } from "models/quotes.model";
@@ -155,7 +156,18 @@ export class CardRepository {
           model: Inquiry,
           as: "inquiry",
           include: [
-            { model: Product, as: "product", attributes: ["id", "name"] },
+            {
+              model: InquiryItem,
+              as: "items",
+              include: [
+                {
+                  model: Product,
+                  as: "product",
+                  attributes: ["id", "name", "price"],
+                },
+              ],
+            },
+            // { model: Customers, as: "customer" },
           ],
         },
         { model: Customers, as: "customer" },

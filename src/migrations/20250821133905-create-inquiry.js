@@ -21,6 +21,10 @@ export default {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
+      grand_total: {
+        allowNull: false,
+        type: DataTypes.DECIMAL,
+      },
       budget: {
         type: DataTypes.DECIMAL,
         allowNull: false,

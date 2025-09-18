@@ -85,6 +85,6 @@ export class Product
   @BelongsTo(() => Categories)
   categories!: CategoriesAttributes;
 
-  // @HasMany(() => InquiryItem, { foreignKey: "product_id" })
-  // inquiryItems!: InquiryItem[];
+  @HasMany(() => InquiryItem, { foreignKey: "product_id" })
+  inquiryItems!: InquiryItem[];
 }

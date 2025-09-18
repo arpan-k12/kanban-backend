@@ -71,6 +71,10 @@ export class Inquiry
 
   @AllowNull(false)
   @Column(DataType.DECIMAL)
+  grand_total!: number;
+
+  @AllowNull(false)
+  @Column(DataType.DECIMAL)
   budget!: number;
 
   @AllowNull(false)

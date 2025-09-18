@@ -37,7 +37,7 @@ export class IndexRouter {
       userOrganizationRouter
     );
     this.router.use("/api/category", authentication, categoryRouter);
-    this.router.use("/api/product", authentication, productRouter);
+    this.router.use("/api/product", productRouter);
   }
 }
 

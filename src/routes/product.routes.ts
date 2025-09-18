@@ -1,6 +1,7 @@
 import { ProductController } from "controllers/product.controller";
 import { Router, Request, Response, NextFunction } from "express";
 import { uploadMultiple } from "helper/fileUpload";
+import { authentication } from "middlewares/authentication";
 
 export class ProductRouter {
   public router: Router;
@@ -14,6 +15,7 @@ export class ProductRouter {
     this.router.post(
       "/",
       uploadMultiple,
+      authentication,
       (req: Request, res: Response, next: NextFunction) => {
         ProductController.create(req, res, next);
       }
@@ -30,6 +32,7 @@ export class ProductRouter {
     this.router.patch(
       "/:id",
       uploadMultiple,
+      authentication,
       (req: Request, res: Response, next: NextFunction) => {
         ProductController.updateProduct(req, res, next);
       }
@@ -37,6 +40,7 @@ export class ProductRouter {
 
     this.router.delete(
       "/:id",
+      authentication,
       (req: Request, res: Response, next: NextFunction) => {
         ProductController.deleteProduct(req, res, next);
       }

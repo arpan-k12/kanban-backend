@@ -3,7 +3,7 @@ import { DataTypes } from "sequelize";
 /** @type {import('sequelize-cli').Migration} */
 export default {
   async up(queryInterface) {
-    await queryInterface.createTable("InquiryItems", {
+    await queryInterface.createTable("inquiry_items", {
       id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
@@ -34,7 +34,7 @@ export default {
         allowNull: false,
         type: DataTypes.DECIMAL,
       },
-      price: {
+      total_price: {
         allowNull: false,
         type: DataTypes.DECIMAL,
       },
