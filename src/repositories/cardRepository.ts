@@ -151,7 +151,6 @@ export class CardRepository {
       where: { assigned_to: userId, organization_id: organizationId },
       include: [
         { model: KanbanColumn, as: "column" },
-        // { model: Inquiry, as: "inquiry" },
         {
           model: Inquiry,
           as: "inquiry",
